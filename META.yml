@@ -1,0 +1,43 @@
+---
+abstract: 'PSGI application to implement Riap::HTTP'
+author:
+  - 'Steven Haryanto <stevenharyanto@gmail.com>'
+build_requires:
+  Module::Build: 0.3601
+configure_requires:
+  Module::Build: 0.3601
+dynamic_config: 0
+generated_by: 'Dist::Zilla version 4.300006, CPAN::Meta::Converter version 2.113640'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Perinci-Access-HTTP-Server
+requires:
+  Gepok: 0
+  JSON: 0
+  Log::Any::Adapter: 0
+  Log::Any::Adapter::Callback: 0.03
+  Log::Any::App: 0
+  Module::List: 0
+  Perinci::Access: 0.10
+  Perinci::CmdLine: 0
+  Perinci::Examples: 0
+  Perinci::Gen::ForModule: 0
+  Perinci::Result::Format: 0.12
+  Perinci::Sub::GetArgs::Array: 0
+  Perinci::Sub::property::result_postfilter: 0
+  Perinci::Sub::property::timeout: 0
+  Plack: 0
+  Riap: 1.1.8
+  SHARYANTO::Array::Util: 0
+  Starman: 0
+  Test::More: 0.96
+  URI: 0
+  URI::Escape: 0
+  YAML::Syck: 0
+  perl: 5.010001
+resources:
+  homepage: http://search.cpan.org/dist/Perinci-Access-HTTP-Server/
+  repository: http://github.com/sharyanto/perl-Perinci-Access-HTTP-Server
+version: 0.13

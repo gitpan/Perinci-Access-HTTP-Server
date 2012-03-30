@@ -1,0 +1,253 @@
+#!/usr/bin/perl
+
+package peri_htserve; # just to make PodWeaver happy
+
+use 5.010;
+use strict;
+use warnings;
+use Log::Any qw($log);
+
+use Module::List qw(list_modules);
+use Module::Load;
+use Perinci::CmdLine ();
+use Plack::Builder;
+use Plack::Runner;
+use Perinci::Gen::ForModule qw(gen_meta_for_module);
+
+our $VERSION = '0.13'; # VERSION
+
+our %SPEC;
+
+$SPEC{serve} = {
+    summary => 'Serve Perl modules over HTTP(S) using Riap::HTTP protocol',
+    description => <<'_',
+
+This is a simple command-line front-end for making Perl modules accessible over
+HTTP(S), using the Riap::HTTP protocol. First the specified Perl modules will be
+loaded. Modules which do not contain Rinci metadata will be equipped with
+metadata using Perinci::Sub::Gen::ForModule. After that, a PSGI application will
+be run with the Gepok or Starman PSGI server. The PSGI application serves
+requests for function calls (or other kinds of Riap request) over HTTP. Perl
+modules not specified in the command-line arguments will not be accessible,
+since Perinci::Access::InProcess is used with load=>1.
+
+Modules can be accessed using URL:
+
+ http://HOSTNAME:PORT/MODULE/SUBMOD/FUNCTION?ARG1=VAL1&...
+
+This program is not recommended to be used in production, and there are not many
+configuration options provided. For production, it is recommended that you
+construct your own PSGI application and compose the
+Plack::Middleware::PeriAHS::* middlewares directly.
+
+_
+    args => {
+        modules => ['array*' => {
+            of => 'str*',
+            arg_pos => 0,
+            arg_greedy => 1,
+            summary => 'List of modules to load',
+            description => <<'_',
+
+Either specify exact module name or one using wildcard (e.g. 'Foo::Bar::*', in
+which Module::List will be used to load all modules under 'Foo::Bar::').
+
+_
+        }],
+        riap_access_log_path => ['str' => {
+            summary => 'Path for Riap request access log file',
+            description => <<'_',
+Default is ~/peri-htserve-riap_access.log
+_
+        }],
+        server => ['str*' => {
+            summary => 'Choose PSGI server',
+            description => <<'_',
+
+Currently only Starman or Gepok is supported. Default is Gepok.
+
+_
+            in => [qw/Starman Gepok/],
+            default => 'Gepok',
+        }],
+        starman_host => ['str' => {
+            summary => 'Will be passed to Starman',
+        }],
+        starman_port => ['int' => {
+            summary => 'Will be passed to Starman',
+        }],
+        gepok_http_ports => ['str' => {
+            summary => 'Will be passed to Gepok',
+        }],
+        gepok_https_ports => ['str' => {
+            summary => 'Will be passed to Gepok',
+        }],
+        gepok_unix_sockets => ['str' => {
+            summary => 'Will be passed to Gepok',
+        }],
+        gepok_ssl_key_file => ['str' => {
+            summary => 'Will be passed to Gepok',
+        }],
+        gepok_ssl_cert_file => ['str' => {
+            summary => 'Will be passed to Gepok',
+        }],
+        daemonize => ['bool' => {
+            default => 0,
+            summary => 'If true, will daemonize into background',
+            arg_aliases => {D=>{}},
+        }],
+
+    },
+};
+sub serve {
+    my %args = @_;
+
+    my $server = $args{server} // "Gepok";
+    $server =~ /\A(Gepok|Starman)\z/ or $server = "Gepok";
+
+    $log->infof("Starting server (using %s) ...", $server);
+
+    my $riap_access_log_path = $args{riap_access_log_path} //
+        "$ENV{HOME}/peri-htserve-riap_access.log";
+
+    my @modules;
+    for my $m (@{$args{modules}}) {
+        if ($m =~ /(.+::)\*$/) {
+            my $res = list_modules($1, {list_modules=>1});
+            push @modules, keys %$res;
+        } else {
+            push @modules, $m;
+        }
+    }
+    $log->debugf("Modules to load: %s", \@modules);
+    for my $m (@modules) {
+        $log->infof("Loading module %s ...", $m);
+        eval { load $m };
+        return [500, "Failed to load module $m: $@"] if $@;
+        gen_meta_for_module(module=>$m, load=>0);
+    }
+
+    my $app =
+        builder {
+            enable "PeriAHS::LogAccess",
+                dest => $riap_access_log_path;
+
+            #enable "PeriAHS::CheckAccess";
+
+            enable "PeriAHS::ParseRequest";
+
+            enable "PeriAHS::Respond";
+        };
+
+    my @argv;
+    push @argv, "-s", $server;
+    if ($server eq 'Starman') {
+        for (qw/host port/) {
+            push @argv, "--$_", $args{"starman_$_"} if $args{"starman_$_"};
+        }
+    } else {
+        if (!$args{gepok_http_ports} &&
+                !$args{gepok_https_ports} &&
+                    !$args{gepok_unix_sockets}) {
+            $args{gepok_http_ports} = "*:5000";
+        }
+        for (qw/http_port https_ports unix_sockets
+                ssl_key_file ssl_cert_file/) {
+            push @argv, "--$_", $args{"gepok_$_"} if $args{"gepok_$_"};
+        }
+    }
+    push @argv, "-D" if $args{daemonize};
+    my $runner = Plack::Runner->new;
+    $runner->parse_options(@argv);
+    $runner->run($app);
+
+    # never reached though
+    [200, "OK"];
+}
+
+Perinci::CmdLine->new(url => '/peri_htserve/serve')->run;
+
+#ABSTRACT: Serve Perl modules over HTTP(S) using the Riap::HTTP protocol
+
+
+__END__
+=pod
+
+=head1 NAME
+
+peri_htserve - Serve Perl modules over HTTP(S) using the Riap::HTTP protocol
+
+=head1 VERSION
+
+version 0.13
+
+=head1 SYNOPSIS
+
+ # serve modules over HTTP, using default options (HTTP port 5000)
+ $ peri-htserve Foo::Bar Baz::*
+
+ # you can now do
+ $ curl 'http://localhost:5000/Baz/SubMod/func1?arg1=1&arg2=2'
+ [200,"OK",{"The":"result","...":"..."}]
+
+ # or use the Perl client
+ $ perl -MPerinci::Access -e'
+     my $pa = Perinci::Access->new;
+     my $res = $pa->request(call=>"http://localhost:5000/Foo/Bar/func2");'
+
+
+ ### some other peri-htserve options:
+
+ # change ports/etc (see http_ports, https_ports, and unix_sockets in Gepok doc)
+ $ peri-htserve --http-ports "localhost:5000,*:80" ...
+
+ # see all available options
+ $ peri-htserve --help
+
+=head1 DESCRIPTION
+
+For now, please see source code for more details (or --help).
+
+=head1 QUICK TIPS
+
+=head2 Complex argument
+
+In raw HTTP, you can send complex argument by encoding it in JSON, e.g.:
+
+ $ curl 'http://localhost:5000/Foo/Bar/func?array:j=[1,2,3]'
+
+Notice the ":j" suffix after parameter name.
+
+=head1 TODO
+
+=over 4
+
+=item * Pass more Plackup options.
+
+=item * Pass more PSGI server options.
+
+=back
+
+=head1 SEE ALSO
+
+L<Riap::HTTP>
+
+L<Perinci::Access>, L<Perinci::Access::HTTP::Client>
+
+PSGI servers used: L<Gepok>, L<Starman>
+
+L<Plack::Runner>
+
+=head1 AUTHOR
+
+Steven Haryanto <stevenharyanto@gmail.com>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is copyright (c) 2012 by Steven Haryanto.
+
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
+
+=cut
+
