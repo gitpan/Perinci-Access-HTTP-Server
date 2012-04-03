@@ -13,7 +13,7 @@ use Perinci::Result::Format;
 use Scalar::Util qw(blessed);
 use Time::HiRes qw(gettimeofday);
 
-our $VERSION = '0.13'; # VERSION
+our $VERSION = '0.14'; # VERSION
 
 sub prepare_app {
     my $self = shift;
@@ -62,7 +62,7 @@ sub call {
         my $respond = shift;
 
         my $writer;
-        my $loglvl  = $rreq->{'loglevel'};
+        my $loglvl  = $rreq->{'loglevel'} // 0;
         my $marklog = $rreq->{'marklog'};
         my $rres; #  short for riap response
         $env->{'periahs.start_action_time'} = [gettimeofday];
@@ -114,7 +114,7 @@ Plack::Middleware::PeriAHS::Respond - Send Riap request to Riap server and send 
 
 =head1 VERSION
 
-version 0.13
+version 0.14
 
 =head1 SYNOPSIS
 

@@ -26,7 +26,7 @@ use Perinci::Sub::property::timeout;
 use Plack::Util::PeriAHS qw(errpage);
 use URI::Escape;
 
-our $VERSION = '0.13'; # VERSION
+our $VERSION = '0.14'; # VERSION
 
 my $json = JSON->new->allow_nonref;
 
@@ -70,7 +70,13 @@ sub call {
     my $acp = $env->{HTTP_ACCEPT} // "";
     my $ua  = $env->{HTTP_USER_AGENT} // "";
     my $fmt;
-    if ($ua =~ m!Wget/|curl/!) {
+    if ($acp =~ m!^text/(?:x-)?yaml$!) {
+        $fmt = "yaml";
+    } elsif ($acp eq 'application/json') {
+        $fmt = "json";
+    } elsif ($acp eq 'text/plain') {
+        $fmt = "text";
+    } elsif ($ua =~ m!Wget/|curl/!) {
         $fmt = "text";
     } elsif ($ua =~ m!Mozilla/!) {
         $fmt = "json";
@@ -169,7 +175,8 @@ sub call {
                 $k = $1;
                 #$log->trace("CGI parameter $k (json)=$v");
                 eval { $v = $json->decode($v) };
-                return errpage("Invalid JSON in query parameter $k: $@")
+                return errpage(
+                    $env, [400, "Invalid JSON in query parameter $k: $@"])
                     if $@;
             } elsif ($k =~ /(.+):y$/) {
                 $k = $1;
@@ -260,7 +267,7 @@ Plack::Middleware::PeriAHS::ParseRequest - Parse Riap request from HTTP request
 
 =head1 VERSION
 
-version 0.13
+version 0.14
 
 =head1 SYNOPSIS
 
