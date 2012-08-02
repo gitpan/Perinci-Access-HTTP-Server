@@ -2,7 +2,7 @@ NAME
     Perinci::Access::HTTP::Server - PSGI application to implement Riap::HTTP
 
 VERSION
-    version 0.14
+    version 0.15
 
 SYNOPSIS
 DESCRIPTION
@@ -46,7 +46,7 @@ FAQ
     PeriAHS::ParseRequest middleware (see peri-htserve source code). You
     just need to make sure that you set $env->{"riap.request"}{uri}.
 
-I want to let user specify output format from URI (e.g. /api/j/... or /api/yaml/...).
+  I want to let user specify output format from URI (e.g. /api/j/... or /api/yaml/...).
     Again, this can be achieved by customizing the PeriAHS::ParseRequest
     middleware. You can do something like:
 
@@ -60,7 +60,7 @@ I want to let user specify output format from URI (e.g. /api/j/... or /api/yaml/
              }
          ];
 
-I need even more custom URI syntax.
+  I need even more custom URI syntax.
     You can leave "match_uri" empty and perform your custom URI parsing in
     another middleware after PeriAHS::ParseRequest. For example:
 

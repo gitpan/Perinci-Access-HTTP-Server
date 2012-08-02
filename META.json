@@ -1,0 +1,70 @@
+{
+   "abstract" : "PSGI application to implement Riap::HTTP",
+   "author" : [
+      "Steven Haryanto <stevenharyanto@gmail.com>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Dist::Zilla version 4.300006, CPAN::Meta::Converter version 2.113640",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "Perinci-Access-HTTP-Server",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "Module::Build" : "0.3601"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "Module::Build" : "0.3601"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "File::HomeDir" : 0,
+            "Gepok" : 0,
+            "Log::Any::Adapter" : 0,
+            "Log::Any::Adapter::Callback" : "0.03",
+            "Log::Any::App" : 0,
+            "Module::List" : 0,
+            "Perinci::Access" : "0.10",
+            "Perinci::Access::InProcess" : "0.19",
+            "Perinci::CmdLine" : 0,
+            "Perinci::Gen::ForModule" : 0,
+            "Perinci::Result::Format" : "0.12",
+            "Perinci::Sub::GetArgs::Array" : 0,
+            "Perinci::Sub::property::result_postfilter" : 0,
+            "Perinci::Sub::property::timeout" : 0,
+            "Plack" : 0,
+            "Riap" : "v1.1.10",
+            "SHARYANTO::Array::Util" : 0,
+            "Starman" : 0,
+            "URI" : 0,
+            "URI::Escape" : 0,
+            "YAML::Syck" : 0,
+            "perl" : "5.010001"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "JSON" : 0,
+            "Perinci::Examples" : 0,
+            "Test::More" : "0.96"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "homepage" : "http://search.cpan.org/dist/Perinci-Access-HTTP-Server/",
+      "repository" : {
+         "url" : "http://github.com/sharyanto/perl-Perinci-Access-HTTP-Server"
+      }
+   },
+   "version" : "0.15"
+}
+

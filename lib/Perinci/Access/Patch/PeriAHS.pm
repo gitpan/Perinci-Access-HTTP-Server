@@ -4,7 +4,7 @@ use 5.010;
 use strict;
 use warnings;
 
-our $VERSION = '0.14'; # VERSION
+our $VERSION = '0.15'; # VERSION
 
 use Perinci::Access::Base;
 package Perinci::Access::Base;
@@ -39,7 +39,7 @@ Perinci::Access::Patch::PeriAHS - Add extra actions to Perinci::Access::Base
 
 =head1 VERSION
 
-version 0.14
+version 0.15
 
 =head1 DESCRIPTION
 

@@ -1,12 +1,11 @@
 #!/usr/bin/perl
 
-package peri_htserve; # just to make PodWeaver happy
-
 use 5.010;
 use strict;
 use warnings;
 use Log::Any qw($log);
 
+use File::HomeDir;
 use Module::List qw(list_modules);
 use Module::Load;
 use Perinci::CmdLine ();
@@ -14,7 +13,7 @@ use Plack::Builder;
 use Plack::Runner;
 use Perinci::Gen::ForModule qw(gen_meta_for_module);
 
-our $VERSION = '0.14'; # VERSION
+our $VERSION = '0.15'; # VERSION
 
 our %SPEC;
 
@@ -29,7 +28,7 @@ metadata using Perinci::Sub::Gen::ForModule. After that, a PSGI application will
 be run with the Gepok or Starman PSGI server. The PSGI application serves
 requests for function calls (or other kinds of Riap request) over HTTP. Perl
 modules not specified in the command-line arguments will not be accessible,
-since Perinci::Access::InProcess is used with load=>1.
+since Perinci::Access::InProcess is used with load=>0.
 
 Modules can be accessed using URL:
 
@@ -109,7 +108,7 @@ sub serve {
     $log->infof("Starting server (using %s) ...", $server);
 
     my $riap_access_log_path = $args{riap_access_log_path} //
-        "$ENV{HOME}/peri-htserve-riap_access.log";
+        File::HomeDir->my_home . "/peri-htserve-riap_access.log";
 
     return [400, "Please specify at least 1 module"]
         unless $args{modules} && @{$args{modules}};
@@ -169,9 +168,10 @@ sub serve {
     [200, "OK"];
 }
 
-Perinci::CmdLine->new(url => '/peri_htserve/serve')->run;
+Perinci::CmdLine->new(url => '/main/serve')->run;
 
 #ABSTRACT: Serve Perl modules over HTTP(S) using the Riap::HTTP protocol
+#PODNAME: peri-htserve
 
 
 __END__
@@ -179,11 +179,11 @@ __END__
 
 =head1 NAME
 
-peri_htserve - Serve Perl modules over HTTP(S) using the Riap::HTTP protocol
+peri-htserve - Serve Perl modules over HTTP(S) using the Riap::HTTP protocol
 
 =head1 VERSION
 
-version 0.14
+version 0.15
 
 =head1 SYNOPSIS
 

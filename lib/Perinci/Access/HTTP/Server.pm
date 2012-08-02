@@ -4,7 +4,7 @@ use 5.010;
 use strict;
 use warnings;
 
-our $VERSION = '0.14'; # VERSION
+our $VERSION = '0.15'; # VERSION
 
 1;
 # ABSTRACT: PSGI application to implement Riap::HTTP
@@ -19,7 +19,7 @@ Perinci::Access::HTTP::Server - PSGI application to implement Riap::HTTP
 
 =head1 VERSION
 
-version 0.14
+version 0.15
 
 =head1 SYNOPSIS
 
@@ -67,7 +67,7 @@ You can do this by customizing B<match_uri> when enabling the
 PeriAHS::ParseRequest middleware (see B<peri-htserve> source code). You just
 need to make sure that you set $env->{"riap.request"}{uri}.
 
-=head1 I want to let user specify output format from URI (e.g. /api/j/... or /api/yaml/...).
+=head2 I want to let user specify output format from URI (e.g. /api/j/... or /api/yaml/...).
 
 Again, this can be achieved by customizing the PeriAHS::ParseRequest middleware.
 You can do something like:
@@ -82,7 +82,7 @@ You can do something like:
          }
      ];
 
-=head1 I need even more custom URI syntax.
+=head2 I need even more custom URI syntax.
 
 You can leave C<match_uri> empty and perform your custom URI parsing in another
 middleware after PeriAHS::ParseRequest. For example:

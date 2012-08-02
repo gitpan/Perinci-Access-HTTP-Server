@@ -3,12 +3,11 @@ Changes
 LICENSE
 MANIFEST
 MANIFEST.SKIP
+META.json
 META.yml
 README
 bin/peri-htserve
 dist.ini
-lib-not_implemented/Plack/Middleware/PeriAHS/Authz/ACL.pm
-lib-not_implemented/Plack/Middleware/PeriAHS/LimitRate.pm
 lib/Perinci/Access/HTTP/Server.pm
 lib/Perinci/Access/Patch/PeriAHS.pm
 lib/Plack/Middleware/PeriAHS/CheckAccess.pm
