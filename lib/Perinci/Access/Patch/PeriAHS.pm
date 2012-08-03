@@ -4,7 +4,10 @@ use 5.010;
 use strict;
 use warnings;
 
-our $VERSION = '0.16'; # VERSION
+# don't use '# VERSION' in this file, PAUSE reads it and assume
+# Perinci::Access::Base's version is also this (wrong).
+
+# xVERSION
 
 use Perinci::Access::Base;
 package Perinci::Access::Base;
@@ -39,7 +42,7 @@ Perinci::Access::Patch::PeriAHS - Add extra actions to Perinci::Access::Base
 
 =head1 VERSION
 
-version 0.16
+version 0.17
 
 =head1 DESCRIPTION
 
