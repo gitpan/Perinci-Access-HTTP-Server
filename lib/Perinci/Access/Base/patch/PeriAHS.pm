@@ -8,7 +8,7 @@ use Module::Patch 0.10 qw();
 use base qw(Module::Patch);
 use Perinci::Result::Format;
 
-our $VERSION = '0.19'; # VERSION
+our $VERSION = '0.20'; # VERSION
 
 sub patch_data {
     return {
@@ -54,7 +54,7 @@ Perinci::Access::Base::patch::PeriAHS - Patch for Perinci::Access::Base
 
 =head1 VERSION
 
-version 0.19
+version 0.20
 
 =head1 DESCRIPTION
 

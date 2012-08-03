@@ -17,6 +17,7 @@ meta-spec:
   version: 1.4
 name: Perinci-Access-HTTP-Server
 requires:
+  Data::Clean::JSON: 0
   File::HomeDir: 0
   Gepok: 0
   Log::Any::Adapter: 0
@@ -30,7 +31,6 @@ requires:
   Perinci::Gen::ForModule: 0
   Perinci::Result::Format: 0.12
   Perinci::Sub::GetArgs::Array: 0
-  Perinci::Sub::property::result_postfilter: 0
   Perinci::Sub::property::timeout: 0
   Plack: 0
   Riap: 1.1.10
@@ -43,4 +43,4 @@ requires:
 resources:
   homepage: http://search.cpan.org/dist/Perinci-Access-HTTP-Server/
   repository: http://github.com/sharyanto/perl-Perinci-Access-HTTP-Server
-version: 0.19
+version: 0.20

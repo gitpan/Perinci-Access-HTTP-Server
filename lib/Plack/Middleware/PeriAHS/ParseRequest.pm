@@ -23,12 +23,10 @@ use Perinci::Access;
 use Perinci::Access::InProcess;
 use Perinci::Access::Base::patch::PeriAHS;
 use Perinci::Sub::GetArgs::Array qw(get_args_from_array);
-use Perinci::Sub::property::result_postfilter;
-use Perinci::Sub::property::timeout;
 use Plack::Util::PeriAHS qw(errpage);
 use URI::Escape;
 
-our $VERSION = '0.19'; # VERSION
+our $VERSION = '0.20'; # VERSION
 
 my $json = JSON->new->allow_nonref;
 
@@ -47,11 +45,6 @@ sub prepare_app {
             pl => Perinci::Access::InProcess->new(
                 load => 0,
                 extra_wrapper_convert => {
-                    result_postfilter => {
-                        re   => 'str',
-                        date => 'epoch',
-                        code => 'str',
-                    },
                     #timeout => 300,
                 },
                 use_tx            => $self->{use_tx},
@@ -273,7 +266,7 @@ Plack::Middleware::PeriAHS::ParseRequest - Parse Riap request from HTTP request
 
 =head1 VERSION
 
-version 0.19
+version 0.20
 
 =head1 SYNOPSIS
 
