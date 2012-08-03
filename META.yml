@@ -23,6 +23,7 @@ requires:
   Log::Any::Adapter::Callback: 0.03
   Log::Any::App: 0
   Module::List: 0
+  Module::Patch: 0.10
   Perinci::Access: 0.10
   Perinci::Access::InProcess: 0.19
   Perinci::CmdLine: 0
@@ -42,4 +43,4 @@ requires:
 resources:
   homepage: http://search.cpan.org/dist/Perinci-Access-HTTP-Server/
   repository: http://github.com/sharyanto/perl-Perinci-Access-HTTP-Server
-version: 0.18
+version: 0.19

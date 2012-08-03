@@ -8,8 +8,8 @@ META.yml
 README
 bin/peri-htserve
 dist.ini
+lib/Perinci/Access/Base/patch/PeriAHS.pm
 lib/Perinci/Access/HTTP/Server.pm
-lib/Perinci/Access/Patch/PeriAHS.pm
 lib/Plack/Middleware/PeriAHS/CheckAccess.pm
 lib/Plack/Middleware/PeriAHS/LogAccess.pm
 lib/Plack/Middleware/PeriAHS/ParseRequest.pm

@@ -20,7 +20,7 @@ my %module_build_args = (
     "Steven Haryanto <stevenharyanto\@gmail.com>"
   ],
   "dist_name" => "Perinci-Access-HTTP-Server",
-  "dist_version" => "0.18",
+  "dist_version" => "0.19",
   "license" => "perl",
   "module_name" => "Perinci::Access::HTTP::Server",
   "recommends" => {},
@@ -32,6 +32,7 @@ my %module_build_args = (
     "Log::Any::Adapter::Callback" => "0.03",
     "Log::Any::App" => 0,
     "Module::List" => 0,
+    "Module::Patch" => "0.10",
     "Perinci::Access" => "0.10",
     "Perinci::Access::InProcess" => "0.19",
     "Perinci::CmdLine" => 0,

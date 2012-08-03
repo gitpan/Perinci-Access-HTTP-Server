@@ -21,14 +21,14 @@ use Plack::Util::Accessor qw(
 use JSON;
 use Perinci::Access;
 use Perinci::Access::InProcess;
-use Perinci::Access::Patch::PeriAHS;
+use Perinci::Access::Base::patch::PeriAHS;
 use Perinci::Sub::GetArgs::Array qw(get_args_from_array);
 use Perinci::Sub::property::result_postfilter;
 use Perinci::Sub::property::timeout;
 use Plack::Util::PeriAHS qw(errpage);
 use URI::Escape;
 
-our $VERSION = '0.18'; # VERSION
+our $VERSION = '0.19'; # VERSION
 
 my $json = JSON->new->allow_nonref;
 
@@ -273,7 +273,7 @@ Plack::Middleware::PeriAHS::ParseRequest - Parse Riap request from HTTP request
 
 =head1 VERSION
 
-version 0.18
+version 0.19
 
 =head1 SYNOPSIS
 
