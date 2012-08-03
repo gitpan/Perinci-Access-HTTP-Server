@@ -13,7 +13,7 @@ use Perinci::Result::Format;
 use Scalar::Util qw(blessed);
 use Time::HiRes qw(gettimeofday);
 
-our $VERSION = '0.17'; # VERSION
+our $VERSION = '0.18'; # VERSION
 
 sub prepare_app {
     my $self = shift;
@@ -114,7 +114,7 @@ Plack::Middleware::PeriAHS::Respond - Send Riap request to Riap server and send 
 
 =head1 VERSION
 
-version 0.17
+version 0.18
 
 =head1 SYNOPSIS
 

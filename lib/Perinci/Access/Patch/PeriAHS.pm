@@ -1,16 +1,10 @@
-package Perinci::Access::Patch::PeriAHS;
-
-use 5.010;
-use strict;
-use warnings;
-
-# don't use '# VERSION' in this file, PAUSE reads it and assume
-# Perinci::Access::Base's version is also this (wrong).
-
-# xVERSION
-
 use Perinci::Access::Base;
 package Perinci::Access::Base;
+
+# don't use '# VERSION' in this file, this package is defined in another dist
+# (Perinci), with different version.
+
+# xVERSION
 
 sub actionmeta_srvinfo { +{
     applies_to => ['*'],
@@ -38,11 +32,11 @@ __END__
 
 =head1 NAME
 
-Perinci::Access::Patch::PeriAHS - Add extra actions to Perinci::Access::Base
+Perinci::Access::Base - Add extra actions to Perinci::Access::Base
 
 =head1 VERSION
 
-version 0.17
+version 0.18
 
 =head1 DESCRIPTION
 

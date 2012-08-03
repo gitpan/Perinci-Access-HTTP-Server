@@ -8,7 +8,7 @@ use Log::Any '$log';
 our @ISA = qw(Exporter);
 our @EXPORT_OK = qw(errpage);
 
-our $VERSION = '0.17'; # VERSION
+our $VERSION = '0.18'; # VERSION
 
 # render envelope response as an error page, either in html or json or text,
 # according to $env->{"riap.request"}{fmt}. Will default to json if fmt is
@@ -62,7 +62,7 @@ Plack::Util::PeriAHS - Utility routines
 
 =head1 VERSION
 
-version 0.17
+version 0.18
 
 =head1 AUTHOR
 
