@@ -8,7 +8,7 @@ use Log::Any '$log';
 our @ISA = qw(Exporter);
 our @EXPORT_OK = qw(errpage);
 
-our $VERSION = '0.22'; # VERSION
+our $VERSION = '0.23'; # VERSION
 
 use JSON;
 
@@ -58,7 +58,7 @@ Plack::Util::PeriAHS - Utility routines
 
 =head1 VERSION
 
-version 0.22
+version 0.23
 
 =head1 FUNCTIONS
 

@@ -10,11 +10,14 @@ use Plack::Util::Accessor qw();
 
 use Data::Clean::JSON;
 use Log::Any::Adapter;
-use Perinci::Result::Format;
+use Perinci::Result::Format 0.30;
 use Scalar::Util qw(blessed);
 use Time::HiRes qw(gettimeofday);
 
-our $VERSION = '0.22'; # VERSION
+our $VERSION = '0.23'; # VERSION
+
+# to avoid sending colored YAML/JSON output
+$Perinci::Result::Format::Enable_Decoration = 0;
 
 our $cleaner = Data::Clean::JSON->new;
 
@@ -119,7 +122,7 @@ Plack::Middleware::PeriAHS::Respond - Send Riap request to Riap server and send 
 
 =head1 VERSION
 
-version 0.22
+version 0.23
 
 =head1 SYNOPSIS
 
