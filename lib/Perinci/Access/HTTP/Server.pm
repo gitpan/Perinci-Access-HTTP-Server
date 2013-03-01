@@ -4,7 +4,7 @@ use 5.010;
 use strict;
 use warnings;
 
-our $VERSION = '0.21'; # VERSION
+our $VERSION = '0.22'; # VERSION
 
 1;
 # ABSTRACT: PSGI application to implement Riap::HTTP
@@ -19,7 +19,7 @@ Perinci::Access::HTTP::Server - PSGI application to implement Riap::HTTP
 
 =head1 VERSION
 
-version 0.21
+version 0.22
 
 =head1 SYNOPSIS
 
@@ -35,8 +35,9 @@ provided PSGI application with the L<Gepok> or L<Starman> PSGI I<server> so you
 can quickly export some Perl modules/functions as an API service with one line
 of command.
 
-To get started, currently see the source code for B<peri-htserve> and each
-middleware's documentation.
+To get started, currently see the source code of B<peri-htserve> to see the
+basic structure of the PSGI application. Also see each middleware's
+documentation.
 
 =head1 FAQ
 
@@ -82,6 +83,12 @@ You can do something like:
          }
      ];
 
+Another example, allowing format by sticking C<.json> or C<.yaml> at the end of
+Riap URI:
+
+ enable "PeriAHS::ParseRequest"
+     match_uri => qr!^(?<uri>[^?/]+(?:/[^?/]+)?)(?:\.(?<fmt>json|yaml))!x;
+
 =head2 I need even more custom URI syntax.
 
 You can leave C<match_uri> empty and perform your custom URI parsing in another
@@ -110,6 +117,13 @@ If you use B<plackup>, use L<Gepok> (-s) as the PSGI server.
 
 If you use PSGI server other than Gepok, you will probably need to run Nginx,
 L<Perlbal>, or some other external HTTPS proxy.
+
+=head2 I don't want to run a standalone daemon.
+
+Use other deployment mechanisms for your PSGI application, of which there are
+plenty. For example, to deploy as CGI script, see L<Plack::Handler::CGI>. To
+deploy as FastCGI script (allowing to run under Nginx, for example), see
+L<Plack::Handler::FCGI>.
 
 =head2 I don't want to expose my subroutines and module structure directly!
 
@@ -191,7 +205,7 @@ Steven Haryanto <stevenharyanto@gmail.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by Steven Haryanto.
+This software is copyright (c) 2013 by Steven Haryanto.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

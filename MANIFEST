@@ -8,7 +8,9 @@ META.yml
 README
 bin/peri-htserve
 dist.ini
-lib/Perinci/Access/Base/patch/PeriAHS.pm
+examples/auth.psgi
+examples/authz.psgi
+lib/Perinci/Access/Base/Patch/PeriAHS.pm
 lib/Perinci/Access/HTTP/Server.pm
 lib/Plack/Middleware/PeriAHS/CheckAccess.pm
 lib/Plack/Middleware/PeriAHS/LogAccess.pm
@@ -20,3 +22,4 @@ t/CheckAccess.t
 t/ParseRequest.t
 t/release-pod-coverage.t
 t/release-pod-syntax.t
+t/release-rinci.t

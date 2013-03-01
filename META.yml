@@ -9,7 +9,7 @@ build_requires:
 configure_requires:
   Module::Build: 0.3601
 dynamic_config: 0
-generated_by: 'Dist::Zilla version 4.300006, CPAN::Meta::Converter version 2.113640'
+generated_by: 'Dist::Zilla version 4.300028, CPAN::Meta::Converter version 2.120921'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -23,10 +23,11 @@ requires:
   Log::Any::Adapter: 0
   Log::Any::Adapter::Callback: 0.03
   Module::List: 0
-  Module::Patch: 0.10
+  Module::Patch: 0.12
   Perinci::Access: 0.10
   Perinci::Access::InProcess: 0.19
   Perinci::CmdLine: 0
+  Perinci::Examples: 0
   Perinci::Gen::ForModule: 0
   Perinci::Result::Format: 0.12
   Perinci::Sub::GetArgs::Array: 0
@@ -41,4 +42,4 @@ requires:
 resources:
   homepage: http://search.cpan.org/dist/Perinci-Access-HTTP-Server/
   repository: http://github.com/sharyanto/perl-Perinci-Access-HTTP-Server
-version: 0.21
+version: 0.22

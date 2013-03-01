@@ -1,14 +1,14 @@
-package Perinci::Access::Base::patch::PeriAHS;
+package Perinci::Access::Base::Patch::PeriAHS;
 
 use 5.010;
 use strict;
 use warnings;
 
-use Module::Patch 0.10 qw();
+use Module::Patch 0.12 qw();
 use base qw(Module::Patch);
 use Perinci::Result::Format;
 
-our $VERSION = '0.21'; # VERSION
+our $VERSION = '0.22'; # VERSION
 
 sub patch_data {
     return {
@@ -50,11 +50,11 @@ __END__
 
 =head1 NAME
 
-Perinci::Access::Base::patch::PeriAHS - Patch for Perinci::Access::Base
+Perinci::Access::Base::Patch::PeriAHS - Patch for Perinci::Access::Base
 
 =head1 VERSION
 
-version 0.21
+version 0.22
 
 =head1 DESCRIPTION
 
@@ -71,7 +71,7 @@ Steven Haryanto <stevenharyanto@gmail.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by Steven Haryanto.
+This software is copyright (c) 2013 by Steven Haryanto.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

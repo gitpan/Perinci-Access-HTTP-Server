@@ -8,11 +8,7 @@ use Log::Any '$log';
 our @ISA = qw(Exporter);
 our @EXPORT_OK = qw(errpage);
 
-our $VERSION = '0.21'; # VERSION
-
-# render envelope response as an error page, either in html or json or text,
-# according to $env->{"riap.request"}{fmt}. Will default to json if fmt is
-# unsupported by it.
+our $VERSION = '0.22'; # VERSION
 
 use JSON;
 
@@ -62,7 +58,17 @@ Plack::Util::PeriAHS - Utility routines
 
 =head1 VERSION
 
-version 0.21
+version 0.22
+
+=head1 FUNCTIONS
+
+=head2 errpage($env, $resp)
+
+Render enveloped response $resp (as specified in L<Rinci::function>) as an error
+page PSGI response, either in HTML/JSON/plaintext (according to C<<
+$env->{"riap.request"}{fmt} >>). Will default to JSON if C<fmt> is unsupported.
+
+$env is PSGI environment.
 
 =head1 AUTHOR
 
@@ -70,7 +76,7 @@ Steven Haryanto <stevenharyanto@gmail.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by Steven Haryanto.
+This software is copyright (c) 2013 by Steven Haryanto.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

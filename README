@@ -2,7 +2,7 @@ NAME
     Perinci::Access::HTTP::Server - PSGI application to implement Riap::HTTP
 
 VERSION
-    version 0.21
+    version 0.22
 
 SYNOPSIS
 DESCRIPTION
@@ -17,8 +17,9 @@ DESCRIPTION
     so you can quickly export some Perl modules/functions as an API service
     with one line of command.
 
-    To get started, currently see the source code for peri-htserve and each
-    middleware's documentation.
+    To get started, currently see the source code of peri-htserve to see the
+    basic structure of the PSGI application. Also see each middleware's
+    documentation.
 
 FAQ
   I don't want to have to add metadata to every function!
@@ -60,6 +61,12 @@ FAQ
              }
          ];
 
+    Another example, allowing format by sticking ".json" or ".yaml" at the
+    end of Riap URI:
+
+     enable "PeriAHS::ParseRequest"
+         match_uri => qr!^(?<uri>[^?/]+(?:/[^?/]+)?)(?:\.(?<fmt>json|yaml))!x;
+
   I need even more custom URI syntax.
     You can leave "match_uri" empty and perform your custom URI parsing in
     another middleware after PeriAHS::ParseRequest. For example:
@@ -86,6 +93,12 @@ FAQ
 
     If you use PSGI server other than Gepok, you will probably need to run
     Nginx, Perlbal, or some other external HTTPS proxy.
+
+  I don't want to run a standalone daemon.
+    Use other deployment mechanisms for your PSGI application, of which
+    there are plenty. For example, to deploy as CGI script, see
+    Plack::Handler::CGI. To deploy as FastCGI script (allowing to run under
+    Nginx, for example), see Plack::Handler::FCGI.
 
   I don't want to expose my subroutines and module structure directly!
     Well, isn't exposing functions the whole point of API?
@@ -154,7 +167,7 @@ AUTHOR
     Steven Haryanto <stevenharyanto@gmail.com>
 
 COPYRIGHT AND LICENSE
-    This software is copyright (c) 2012 by Steven Haryanto.
+    This software is copyright (c) 2013 by Steven Haryanto.
 
     This is free software; you can redistribute it and/or modify it under
     the same terms as the Perl 5 programming language system itself.

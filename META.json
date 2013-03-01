@@ -4,7 +4,7 @@
       "Steven Haryanto <stevenharyanto@gmail.com>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 4.300006, CPAN::Meta::Converter version 2.113640",
+   "generated_by" : "Dist::Zilla version 4.300028, CPAN::Meta::Converter version 2.120921",
    "license" : [
       "perl_5"
    ],
@@ -24,35 +24,44 @@
             "Module::Build" : "0.3601"
          }
       },
+      "develop" : {
+         "requires" : {
+            "Pod::Coverage::TrustPod" : "0",
+            "Test::Pod" : "1.41",
+            "Test::Pod::Coverage" : "1.08",
+            "Test::Rinci" : "0.01"
+         }
+      },
       "runtime" : {
          "requires" : {
-            "Data::Clean::JSON" : 0,
-            "File::HomeDir" : 0,
-            "Gepok" : 0,
-            "Log::Any" : 0,
-            "Log::Any::Adapter" : 0,
+            "Data::Clean::JSON" : "0",
+            "File::HomeDir" : "0",
+            "Gepok" : "0",
+            "Log::Any" : "0",
+            "Log::Any::Adapter" : "0",
             "Log::Any::Adapter::Callback" : "0.03",
-            "Module::List" : 0,
-            "Module::Patch" : "0.10",
+            "Module::List" : "0",
+            "Module::Patch" : "0.12",
             "Perinci::Access" : "0.10",
             "Perinci::Access::InProcess" : "0.19",
-            "Perinci::CmdLine" : 0,
-            "Perinci::Gen::ForModule" : 0,
+            "Perinci::CmdLine" : "0",
+            "Perinci::Examples" : "0",
+            "Perinci::Gen::ForModule" : "0",
             "Perinci::Result::Format" : "0.12",
-            "Perinci::Sub::GetArgs::Array" : 0,
-            "Plack::Runner" : 0,
+            "Perinci::Sub::GetArgs::Array" : "0",
+            "Plack::Runner" : "0",
             "Riap" : "v1.1.10",
-            "SHARYANTO::Array::Util" : 0,
-            "Starman" : 0,
-            "URI" : 0,
-            "URI::Escape" : 0,
-            "YAML::Syck" : 0,
+            "SHARYANTO::Array::Util" : "0",
+            "Starman" : "0",
+            "URI" : "0",
+            "URI::Escape" : "0",
+            "YAML::Syck" : "0",
             "perl" : "5.010001"
          }
       },
       "test" : {
          "requires" : {
-            "JSON" : 0,
+            "JSON" : "0",
             "Test::More" : "0.96"
          }
       }
@@ -64,6 +73,6 @@
          "url" : "http://github.com/sharyanto/perl-Perinci-Access-HTTP-Server"
       }
    },
-   "version" : "0.21"
+   "version" : "0.22"
 }
 

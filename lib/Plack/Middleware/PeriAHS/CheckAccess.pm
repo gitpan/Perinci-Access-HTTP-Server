@@ -19,7 +19,7 @@ use Plack::Util::PeriAHS qw(errpage);
 use SHARYANTO::Array::Util qw(match_array_or_regex);
 use URI;
 
-our $VERSION = '0.21'; # VERSION
+our $VERSION = '0.22'; # VERSION
 
 sub prepare_app {
     my $self = shift;
@@ -29,7 +29,7 @@ sub prepare_app {
 }
 
 sub call {
-    $log->tracef("=> PeriAHS::ParseRequest middleware");
+    $log->tracef("=> PeriAHS::CheckAccess middleware");
 
     my ($self, $env) = @_;
 
@@ -88,7 +88,7 @@ Plack::Middleware::PeriAHS::CheckAccess - Deny access based on some criteria
 
 =head1 VERSION
 
-version 0.21
+version 0.22
 
 =head1 DESCRIPTION
 
@@ -96,6 +96,8 @@ This middleware denies access according to some criterias in
 C<$env->{"riap.request"}>. It should be put after ParseRequest.
 
 For a more sophisticated access control, try the PeriAHS::ACL middleware.
+
+=for Pod::Coverage .*
 
 =head1 CONFIGURATIONS
 
@@ -141,7 +143,7 @@ Steven Haryanto <stevenharyanto@gmail.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by Steven Haryanto.
+This software is copyright (c) 2013 by Steven Haryanto.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

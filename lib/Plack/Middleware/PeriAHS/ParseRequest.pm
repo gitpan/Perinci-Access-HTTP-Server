@@ -5,11 +5,14 @@ use strict;
 use warnings;
 use Log::Any '$log';
 
+use Perinci::Access::Base::Patch::PeriAHS;
+
 use parent qw(Plack::Middleware);
 use Plack::Request;
 use Plack::Util::Accessor qw(
                                 match_uri
                                 parse_form
+                                parse_reform
                                 parse_path_info
                                 accept_yaml
 
@@ -21,12 +24,11 @@ use Plack::Util::Accessor qw(
 use JSON;
 use Perinci::Access;
 use Perinci::Access::InProcess;
-use Perinci::Access::Base::patch::PeriAHS;
 use Perinci::Sub::GetArgs::Array qw(get_args_from_array);
 use Plack::Util::PeriAHS qw(errpage);
 use URI::Escape;
 
-our $VERSION = '0.21'; # VERSION
+our $VERSION = '0.22'; # VERSION
 
 my $json = JSON->new->allow_nonref;
 
@@ -36,6 +38,7 @@ sub prepare_app {
     $self->{match_uri}         //= qr/(?<uri>[^?]*)/;
     $self->{accept_yaml}       //= 0;
     $self->{parse_form}        //= 1;
+    $self->{parse_reform}      //= 0;
     $self->{parse_path_info}   //= 0;
     $self->{use_tx}            //= 0;
     $self->{custom_tx_manager} //= undef;
@@ -138,25 +141,28 @@ sub call {
 
     # get uri from 'match_uri' config
     my $mu  = $self->{match_uri};
-    my $uri = $env->{REQUEST_URI};
-    my %m;
-    if (ref($mu) eq 'ARRAY') {
-        $uri =~ $mu->[0] or return errpage(
-            $env, [404, "Request does not match match_uri[0] $mu->[0]"]);
-        %m = %+;
-        $mu->[1]->($env, \%m);
-    } else {
-        $uri =~ $mu or return errpage(
-            $env, [404, "Request does not match match_uri $mu"]);
-        %m = %+;
-        for (keys %m) {
-            $rreq->{$_} //= $m{$_};
+    if ($mu) {
+        my $uri = $env->{REQUEST_URI};
+        my %m;
+        if (ref($mu) eq 'ARRAY') {
+            $uri =~ $mu->[0] or return errpage(
+                $env, [404, "Request does not match match_uri[0] $mu->[0]"]);
+            %m = %+;
+            $mu->[1]->($env, \%m);
+        } else {
+            $uri =~ $mu or return errpage(
+                $env, [404, "Request does not match match_uri $mu"]);
+            %m = %+;
+            for (keys %m) {
+                $rreq->{$_} //= $m{$_};
+            }
         }
     }
 
     # get ss request key from form variables (optional)
     if ($self->{parse_form}) {
         my $form = $preq->parameters;
+        $env->{'periahs._form_cache'} = $form;
 
         # special name 'callback' is for jsonp
         if (($rreq->{fmt} // $env->{"periahs.default_fmt"}) eq 'json' &&
@@ -210,11 +216,41 @@ sub call {
         }
     }
 
+    if ($self->{parse_reform} && $env->{'periahs._form_cache'} &&
+            $env->{'periahs._form_cache'}{'-submit'}) {
+        {
+            last unless $rreq->{uri};
+            my $res = $env->{'periahs._meta_res_cache'} //
+                $self->{riap_client}->request(meta => $rreq->{uri});
+            return errpage($env, [$res->[0], $res->[1]])
+                unless $res->[0] == 200;
+            $env->{'periahs._meta_res_cache'} //= $res;
+            my $meta = $res->[2];
+            last unless $meta;
+            last unless $meta->{args};
+
+            require ReForm::HTML;
+            require Perinci::Sub::To::ReForm;
+            my $rf = ReForm::HTML->new(
+                spec => Perinci::Sub::To::ReForm::gen_form_spec_from_rinci_meta(
+                    meta => $meta,
+                )
+            );
+            $res = $rf->get_data(psgi_env => $env);
+            return errpage($env, [$res->[0], $res->[1]])
+                unless $res->[0] == 200;
+            $rreq->{args} = $res->[2];
+        }
+    }
+
     if ($self->{parse_path_info}) {
         {
             last unless $rreq->{uri};
-            my $res = $self->{riap_client}->request(meta => $rreq->{uri});
-            last unless $res->[0] == 200;
+            my $res = $env->{'periahs._meta_res_cache'} //
+                $self->{riap_client}->request(meta => $rreq->{uri});
+            return errpage($env, [$res->[0], $res->[1]])
+                unless $res->[0] == 200;
+            $env->{'periahs._meta_res_cache'} //= $res;
             my $meta = $res->[2];
             last unless $meta;
             last unless $meta->{args};
@@ -266,7 +302,7 @@ Plack::Middleware::PeriAHS::ParseRequest - Parse Riap request from HTTP request
 
 =head1 VERSION
 
-version 0.21
+version 0.22
 
 =head1 SYNOPSIS
 
@@ -285,7 +321,7 @@ environment) and should normally be the first middleware put in the stack.
 
 =head2 Parsing result
 
-The result of parsing will be put in C<$env->{"riap.request"}> hashref.
+The result of parsing will be put in C<< $env->{"riap.request"} >> hashref.
 
 Aside from that, this middleware also sets these for convenience of later
 middlewares:
@@ -319,7 +355,8 @@ and also C<text/yaml> (if C<accept_yaml> configuration is enabled).
 
 Additionally, the following are also done:
 
-B<From URI>. Request URI is checked against B<match_uri> configuration. If URI
+B<From URI>. Request URI is checked against B<match_uri> configuration (This
+step will be skipped if B<match_uri> configuration is not set or empty). If URI
 doesn't match this regex, a 404 error response is returned. It is a convenient
 way to check for valid URLs as well as set Riap request keys, like:
 
@@ -327,17 +364,22 @@ way to check for valid URLs as well as set Riap request keys, like:
 
 The default C<match_uri> is qr/(?<uri>[^?]*)/.
 
-B<From form variables>. If C<parse_form> is enabled, C<args> request key will be
-set (or added) from GET/POST request variables, for example:
+B<From form variables>. If B<parse_form> configuration is enabled, C<args>
+request key will be set (or added) from GET/POST request variables, for example:
 http://host/api/foo/bar?a=1&b:j=[2] will set arguments C<a> and C<b> (":j"
-suffix means value is JSON-encoded; ":y" and ":p" are also accepted if the
-C<accept_yaml> configurations are enabled). In addition, request variables
-C<-riap-*> are also accepted for setting other Riap request keys. Unknown Riap
-request key or encoding suffix will result in 400 error.
+suffix means value is JSON-encoded; ":y" is also accepted if the C<accept_yaml>
+configurations are enabled). In addition, request variables C<-riap-*> are also
+accepted for setting other Riap request keys. Unknown Riap request key or
+encoding suffix will result in 400 error.
 
 If request format is JSON and form variable C<callback> is defined, then it is
 assumed to specify callback for JSONP instead part of C<args>. "callback(json)"
 will be returned instead of just "json".
+
+B<From form variables (2, ReForm)>. PeriAHS has support for L<ReForm>. If
+B<parse_reform> configuration is set to true and form variable C<-submit> is
+also set to true, then the resulting C<args> from previous step will be further
+fed to ReForm object. See the "parse_reform" in the configuration documentation.
 
 C<From URI (2, path info)>. If C<parse_path_info> configuration is enabled, and
 C<uri> Riap request key has been set (so metadata can be retrieved), C<args>
@@ -349,6 +391,8 @@ configuration documentation.
 will result in ['a1', 'a2', 'a3'] being fed into
 L<Perinci::Sub::GetArgs::Array>. An unsuccessful parsing will result in HTTP 400
 error.
+
+=for Pod::Coverage .*
 
 =head1 CONFIGURATIONS
 
@@ -396,6 +440,18 @@ Whether to parse C<args> keys and Riap request keys from form (GET/POST)
 variable of the name C<-x-riap-*> (notice the prefix dash). If an argument is
 already defined (e.g. from request body) or request key is already defined (e.g.
 from C<X-Riap-*> HTTP request header), it will be skipped.
+
+=item * parse_reform => BOOL (default 0)
+
+Whether to parse arguments in C<args> request key using L<ReForm>. Even if
+enabled, will only be done if C<-submit> form variable is set to true.
+
+This configuration is used only if you render forms using ReForm and want to
+process the submitted form.
+
+Form specification will be created (converted) from C<args> property in function
+metadata, which means that a C<meta> Riap request to the backend will be
+performed first to get this metadata.
 
 =item * parse_path_info => BOOL (default 0)
 
@@ -447,7 +503,7 @@ Steven Haryanto <stevenharyanto@gmail.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by Steven Haryanto.
+This software is copyright (c) 2013 by Steven Haryanto.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
