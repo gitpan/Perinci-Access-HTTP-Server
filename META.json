@@ -36,6 +36,7 @@
          "requires" : {
             "Data::Clean::JSON" : "0",
             "File::HomeDir" : "0",
+            "File::Write::Rotate" : "0",
             "Gepok" : "0",
             "Log::Any" : "0",
             "Log::Any::Adapter" : "0",
@@ -73,6 +74,6 @@
          "url" : "http://github.com/sharyanto/perl-Perinci-Access-HTTP-Server"
       }
    },
-   "version" : "0.24"
+   "version" : "0.25"
 }
 

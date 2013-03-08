@@ -19,7 +19,7 @@ my %module_build_args = (
     "Steven Haryanto <stevenharyanto\@gmail.com>"
   ],
   "dist_name" => "Perinci-Access-HTTP-Server",
-  "dist_version" => "0.24",
+  "dist_version" => "0.25",
   "license" => "perl",
   "module_name" => "Perinci::Access::HTTP::Server",
   "recommends" => {},
@@ -27,6 +27,7 @@ my %module_build_args = (
   "requires" => {
     "Data::Clean::JSON" => 0,
     "File::HomeDir" => 0,
+    "File::Write::Rotate" => 0,
     "Gepok" => 0,
     "Log::Any" => 0,
     "Log::Any::Adapter" => 0,

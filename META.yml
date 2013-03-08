@@ -18,6 +18,7 @@ name: Perinci-Access-HTTP-Server
 requires:
   Data::Clean::JSON: 0
   File::HomeDir: 0
+  File::Write::Rotate: 0
   Gepok: 0
   Log::Any: 0
   Log::Any::Adapter: 0
@@ -42,4 +43,4 @@ requires:
 resources:
   homepage: http://search.cpan.org/dist/Perinci-Access-HTTP-Server/
   repository: http://github.com/sharyanto/perl-Perinci-Access-HTTP-Server
-version: 0.24
+version: 0.25
