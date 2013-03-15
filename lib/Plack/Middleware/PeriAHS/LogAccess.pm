@@ -18,7 +18,7 @@ use POSIX;
 use Scalar::Util qw(blessed);
 use Time::HiRes qw(gettimeofday tv_interval);
 
-our $VERSION = '0.25'; # VERSION
+our $VERSION = '0.26'; # VERSION
 
 sub prepare_app {
     my $self = shift;
@@ -145,7 +145,7 @@ sub log_access {
         $time,
         $env->{REMOTE_ADDR},
         $server_addr,
-        $env->{HTTP_USER} // "-",
+        $env->{REMOTE_USER} // "-",
         _safe($rreq->{action} // "-"),
         _safe($uri),
         $args_len.($args_partial ? "p" : ""), $args_s,
@@ -191,7 +191,7 @@ Plack::Middleware::PeriAHS::LogAccess - Log request
 
 =head1 VERSION
 
-version 0.25
+version 0.26
 
 =head1 SYNOPSIS
 
