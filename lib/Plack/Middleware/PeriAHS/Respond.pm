@@ -14,7 +14,7 @@ use Perinci::Result::Format 0.30;
 use Scalar::Util qw(blessed);
 use Time::HiRes qw(gettimeofday);
 
-our $VERSION = '0.26'; # VERSION
+our $VERSION = '0.27'; # VERSION
 
 # to avoid sending colored YAML/JSON output
 $Perinci::Result::Format::Enable_Decoration = 0;
@@ -80,12 +80,14 @@ sub call {
                 min_level => $str_levels{$loglvl} // 'warning',
                 logging_cb => sub {
                     my ($method, $self, $format, @params) = @_;
+                    my $msg0 = join(
+                        "",
+                        "[$method][", scalar(localtime), "] $format\n",
+                    );
                     my $msg = join(
                         "",
-                        $marklog ? "L" : "",
-                        "[$method]",
-                        "[", scalar(localtime), "] ",
-                        $format, "\n");
+                        $marklog ? "l" . length($msg0) . " " : "",
+                        $msg0);
                     $writer->write($msg);
                 },
             );
@@ -101,7 +103,8 @@ sub call {
         my ($fres, $ct) = $self->format_result($rres, $env);
 
         if ($writer) {
-            $writer->write($marklog ? "R$fres" : $fres);
+            $writer->write($marklog ?
+                               "r" . length($fres) . " " . $fres : $fres);
             $writer->close;
         } else {
             $respond->([200, ["Content-Type" => $ct], [$fres]]);
@@ -122,7 +125,7 @@ Plack::Middleware::PeriAHS::Respond - Send Riap request to Riap server and send 
 
 =head1 VERSION
 
-version 0.26
+version 0.27
 
 =head1 SYNOPSIS
 
@@ -143,6 +146,34 @@ the last middleware after all the parsing, authentication, and authorization
 middlewares.
 
 The result will also be put in C<$env->{"riap.response"}>.
+
+=head2 How loglevel and marklog works
+
+If marklog is turned on by Riap request (which is required if client wants to
+receive log messages interspersed with actual Riap response), the server will
+encode each part with:
+
+Log message:
+
+ "l" + <number-of-bytes> + " " + <log message>
+   example: l56 [trace][Thu Apr  4 06:41:09 2013] this is a log message!
+
+Part of Riap response:
+
+ "r" + <number-of-bytes> + " " + <data>
+  example: r9 [200,"OK"]
+
+So the actual HTTP response body might be something like this (can be sent by
+the server in HTTP chunks, so that complete log messages can be displayed before
+the whole Riap response is received):
+
+ l56 [trace][Thu Apr  4 06:41:09 2013] this is a log message!
+ l58 [trace][Thu Apr  4 06:41:09 2013] this is another log msg!
+ r9 [200,"OK"]
+
+Developer note: additional parameter in the future can be in the form of e.g.:
+
+ "l" + <number-of-bytes> + ("," + <additional-param> )* + " "
 
 =for Pod::Coverage .*
 

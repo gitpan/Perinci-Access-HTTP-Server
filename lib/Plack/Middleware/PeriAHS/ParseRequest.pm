@@ -28,7 +28,7 @@ use Perinci::Sub::GetArgs::Array qw(get_args_from_array);
 use Plack::Util::PeriAHS qw(errpage);
 use URI::Escape;
 
-our $VERSION = '0.26'; # VERSION
+our $VERSION = '0.27'; # VERSION
 
 my $json = JSON->new->allow_nonref;
 
@@ -302,7 +302,7 @@ Plack::Middleware::PeriAHS::ParseRequest - Parse Riap request from HTTP request
 
 =head1 VERSION
 
-version 0.26
+version 0.27
 
 =head1 SYNOPSIS
 

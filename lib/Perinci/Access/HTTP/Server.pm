@@ -4,7 +4,7 @@ use 5.010001;
 use strict;
 use warnings;
 
-our $VERSION = '0.26'; # VERSION
+our $VERSION = '0.27'; # VERSION
 
 1;
 # ABSTRACT: PSGI application to implement Riap::HTTP
@@ -19,7 +19,7 @@ Perinci::Access::HTTP::Server - PSGI application to implement Riap::HTTP
 
 =head1 VERSION
 
-version 0.26
+version 0.27
 
 =head1 SYNOPSIS
 
