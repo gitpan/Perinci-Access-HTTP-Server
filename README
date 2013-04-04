@@ -2,7 +2,7 @@ NAME
     Perinci::Access::HTTP::Server - PSGI application to implement Riap::HTTP
 
 VERSION
-    version 0.27
+    version 0.28
 
 SYNOPSIS
 DESCRIPTION
