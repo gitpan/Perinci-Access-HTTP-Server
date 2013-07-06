@@ -19,13 +19,12 @@ my %module_build_args = (
     "Steven Haryanto <stevenharyanto\@gmail.com>"
   ],
   "dist_name" => "Perinci-Access-HTTP-Server",
-  "dist_version" => "0.28",
+  "dist_version" => "0.29",
   "license" => "perl",
   "module_name" => "Perinci::Access::HTTP::Server",
   "recommends" => {},
   "recursive_test_files" => 1,
   "requires" => {
-    "Data::Clean::JSON" => 0,
     "File::HomeDir" => 0,
     "File::Write::Rotate" => 0,
     "Gepok" => 0,
@@ -40,7 +39,7 @@ my %module_build_args = (
     "Perinci::CmdLine" => 0,
     "Perinci::Examples" => 0,
     "Perinci::Gen::ForModule" => 0,
-    "Perinci::Result::Format" => "0.30",
+    "Perinci::Result::Format" => "0.31",
     "Perinci::Sub::GetArgs::Array" => 0,
     "Plack::Runner" => 0,
     "Riap" => "v1.1.10",

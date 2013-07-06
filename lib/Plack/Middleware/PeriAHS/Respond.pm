@@ -10,18 +10,18 @@ use Plack::Util::Accessor qw(
                                 add_text_tips
                         );
 
-use Data::Clean::JSON;
 use Log::Any::Adapter;
-use Perinci::Result::Format 0.30;
+use Perinci::Result::Format 0.31;
 use Scalar::Util qw(blessed);
 use Time::HiRes qw(gettimeofday);
 
-our $VERSION = '0.28'; # VERSION
+our $VERSION = '0.29'; # VERSION
 
 # to avoid sending colored YAML/JSON output
 $Perinci::Result::Format::Enable_Decoration = 0;
 
-our $cleaner = Data::Clean::JSON->new;
+# to allow in-place cleansing of data when formatter can't handle data
+$Perinci::Result::Format::Enable_Cleansing = 1;
 
 sub prepare_app {
     my $self = shift;
@@ -31,6 +31,12 @@ sub prepare_app {
 
 sub format_result {
     my ($self, $rres, $env) = @_;
+
+    # turn off Text::ANSITable stuffs that make things look nice in terminals
+    # but ugly in browser
+    local $ENV{UNICODE}   = 0;
+    local $ENV{COLOR}     = 0;
+    local $ENV{BOX_CHARS} = 0;
 
     my $midpr = $env->{"middleware.PeriAHS.ParseRequest"};
     my $rreq = $env->{"riap.request"};
@@ -156,8 +162,6 @@ sub call {
         }
         $env->{'periahs.finish_action_time'} = [gettimeofday];
 
-        $cleaner->clean_in_place($rres);
-
         $env->{'riap.response'} = $rres;
         my ($fres, $ct) = $self->format_result($rres, $env);
 
@@ -184,7 +188,7 @@ Plack::Middleware::PeriAHS::Respond - Send Riap request to Riap server and send 
 
 =head1 VERSION
 
-version 0.28
+version 0.29
 
 =head1 SYNOPSIS
 

@@ -34,7 +34,6 @@
       },
       "runtime" : {
          "requires" : {
-            "Data::Clean::JSON" : "0",
             "File::HomeDir" : "0",
             "File::Write::Rotate" : "0",
             "Gepok" : "0",
@@ -49,7 +48,7 @@
             "Perinci::CmdLine" : "0",
             "Perinci::Examples" : "0",
             "Perinci::Gen::ForModule" : "0",
-            "Perinci::Result::Format" : "0.30",
+            "Perinci::Result::Format" : "0.31",
             "Perinci::Sub::GetArgs::Array" : "0",
             "Plack::Runner" : "0",
             "Riap" : "v1.1.10",
@@ -75,6 +74,6 @@
          "url" : "http://github.com/sharyanto/perl-Perinci-Access-HTTP-Server"
       }
    },
-   "version" : "0.28"
+   "version" : "0.29"
 }
 

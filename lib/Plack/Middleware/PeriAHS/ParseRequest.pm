@@ -33,14 +33,20 @@ use Perinci::Sub::GetArgs::Array qw(get_args_from_array);
 use Plack::Util::PeriAHS qw(errpage);
 use URI::Escape;
 
-our $VERSION = '0.28'; # VERSION
+our $VERSION = '0.29'; # VERSION
 
 my $json = JSON->new->allow_nonref;
 
 sub get_server_url {
     my ($self, $env) = @_;
-    my $host = $env->{HTTP_HOST} =~ /(.+):(.+)/ ? $1 : $env->{HTTP_HOST};
-    my $port = $2 ? $2 : ($env->{HTTPS} ? 443 : 80);
+    my $host = $self->{server_host};
+    unless (defined $host) {
+        $host = $env->{HTTP_HOST} =~ /(.+):(.+)/ ? $1 : $env->{HTTP_HOST};
+    }
+    my $port = $self->{server_port};
+    unless (defined $port) {
+        $port = $2 ? $2 : ($env->{HTTPS} ? 443 : 80);
+    }
     join("",
          ($env->{HTTPS} ? "https" : "http"), "://",
          $host,
@@ -354,7 +360,7 @@ Plack::Middleware::PeriAHS::ParseRequest - Parse Riap request from HTTP request
 
 =head1 VERSION
 
-version 0.28
+version 0.29
 
 =head1 SYNOPSIS
 
