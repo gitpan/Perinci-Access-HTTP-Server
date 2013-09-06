@@ -24,6 +24,9 @@ use Plack::Util::Accessor qw(
                                 riap_client
                                 use_tx
                                 custom_tx_manager
+
+                                php_clients_ua_re
+                                deconfuse_php_clients
                         );
 
 use JSON;
@@ -33,7 +36,7 @@ use Perinci::Sub::GetArgs::Array qw(get_args_from_array);
 use Plack::Util::PeriAHS qw(errpage);
 use URI::Escape;
 
-our $VERSION = '0.29'; # VERSION
+our $VERSION = '0.30'; # VERSION
 
 my $json = JSON->new->allow_nonref;
 
@@ -97,6 +100,8 @@ sub prepare_app {
         }
     );
 
+    $self->{php_clients_ua_re} //= qr(Phinci|/php|php/)i;
+    $self->{deconfuse_php_clients} //= 1;
 }
 
 sub call {
@@ -177,6 +182,16 @@ sub call {
             }
         }
     }
+
+    # special handling for php clients #1
+    my $rcua = $rreq->{ua};
+    if ($self->{deconfuse_php_clients} &&
+            $rcua && $rcua =~ $self->{php_clients_ua_re}) {
+        if (ref($rreq->{args}) eq 'ARRAY' && !@{ $rreq->{args} }) {
+            $rreq->{args} = {};
+        }
+    }
+
     return errpage(
         $env, [400, "Riap request key 'args' must be hash"])
         unless !defined($rreq->{args}) || ref($rreq->{args}) eq 'HASH'; # sanity
@@ -204,7 +219,7 @@ sub call {
         }
     }
 
-    # get ss request key from form variables (optional)
+    # get riap request key from form variables (optional)
     if ($self->{parse_form}) {
         my $form = $preq->parameters;
         $env->{'periahs._form_cache'} = $form;
@@ -332,6 +347,42 @@ sub call {
             $env, [500, "Required Riap request key '$_' has not been defined"]);
     }
 
+    # special handling for php clients #2
+    {
+        last unless $self->{deconfuse_php_clients} &&
+            $rcua && $rcua =~ $self->{php_clients_ua_re};
+        my $rargs = $rreq->{args};
+        last unless $rargs;
+
+        # XXX this is repetitive, must refactor
+        my $res = $env->{'periahs._meta_res_cache'} //
+            $self->{riap_client}->request(meta => $rreq->{uri});
+        return errpage($env, [$res->[0], $res->[1]])
+            unless $res->[0] == 200;
+        $env->{'periahs._meta_res_cache'} //= $res;
+        my $meta = $res->[2];
+
+        if ($meta->{args}) {
+            for my $arg (keys %$rargs) {
+                my $argm = $meta->{args}{$arg};
+                if ($argm && $argm->{schema}) {
+                    # convert {} -> [] if function expects array
+                    if (ref($rargs->{$arg}) eq 'HASH' &&
+                            !keys(%{$rargs->{$arg}}) &&
+                                $argm->{schema}[0] eq 'array') {
+                        $rargs->{$arg} = [];
+                    }
+                    # convert [] -> {} if function expects hash
+                    if (ref($rargs->{$arg}) eq 'ARRAY' &&
+                            !@{$rargs->{$arg}} &&
+                                $argm->{schema}[0] eq 'hash') {
+                        $rargs->{$arg} = {};
+                    }
+                }
+            }
+        }
+    }
+
     # add uri prefix
     $rreq->{uri} = "$self->{riap_uri_prefix}$rreq->{uri}";
 
@@ -350,8 +401,8 @@ sub call {
 1;
 # ABSTRACT: Parse Riap request from HTTP request
 
-
 __END__
+
 =pod
 
 =head1 NAME
@@ -360,7 +411,7 @@ Plack::Middleware::PeriAHS::ParseRequest - Parse Riap request from HTTP request
 
 =head1 VERSION
 
-version 0.29
+version 0.30
 
 =head1 SYNOPSIS
 
@@ -590,6 +641,21 @@ Will be passed to L<Perinci::Access::InProcess> constructor.
 
 Will be passed to L<Perinci::Access::InProcess> constructor.
 
+=item * php_clients_ua_re => REGEX (default: qr(Phinci|/php|php/)i)
+
+What regex should be used to identify PHP Riap clients. Riap clients often
+(should) send C<ua> key identifying itself, e.g. C<Phinci/20130308.1>,
+C<Perinci/0.12>, etc.
+
+=item * deconfuse_php_clients => BOOL (default: 1)
+
+Whether to do special handling for PHP Riap clients (identified by
+C<php_clients_ua_re>). PHP clients often confuse empty array C<[]> with empty
+hash C<{}>, since both are C<Array()> in PHP. If this setting is turned on, the
+server makes sure C<args> becomes C<{}> when client sends C<[]>, and C<{}>
+arguments become C<[]> or vice versa according to hint provided by function
+metadata.
+
 =back
 
 =head1 SEE ALSO
@@ -608,4 +674,3 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-

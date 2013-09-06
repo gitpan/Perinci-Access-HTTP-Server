@@ -4,7 +4,7 @@
       "Steven Haryanto <stevenharyanto@gmail.com>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 4.300028, CPAN::Meta::Converter version 2.120921",
+   "generated_by" : "Dist::Zilla version 4.300035, CPAN::Meta::Converter version 2.131560",
    "license" : [
       "perl_5"
    ],
@@ -50,6 +50,7 @@
             "Perinci::Gen::ForModule" : "0",
             "Perinci::Result::Format" : "0.31",
             "Perinci::Sub::GetArgs::Array" : "0",
+            "Plack::Middleware::Auth::Basic" : "0",
             "Plack::Runner" : "0",
             "Riap" : "v1.1.10",
             "SHARYANTO::Array::Util" : "0",
@@ -74,6 +75,6 @@
          "url" : "http://github.com/sharyanto/perl-Perinci-Access-HTTP-Server"
       }
    },
-   "version" : "0.29"
+   "version" : "0.30"
 }
 
