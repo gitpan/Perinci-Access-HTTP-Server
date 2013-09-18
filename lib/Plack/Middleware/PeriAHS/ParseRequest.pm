@@ -31,12 +31,13 @@ use Plack::Util::Accessor qw(
 
 use JSON;
 use Perinci::Access;
-use Perinci::Access::InProcess;
+use Perinci::Access::Perl;
+use Perinci::Access::Schemeless;
 use Perinci::Sub::GetArgs::Array qw(get_args_from_array);
 use Plack::Util::PeriAHS qw(errpage);
 use URI::Escape;
 
-our $VERSION = '0.30'; # VERSION
+our $VERSION = '0.31'; # VERSION
 
 my $json = JSON->new->allow_nonref;
 
@@ -89,7 +90,15 @@ sub prepare_app {
 
     $self->{riap_client}       //= Perinci::Access->new(
         handlers => {
-            pl => Perinci::Access::InProcess->new(
+            '' => Perinci::Access::Schemeless->new(
+                load => 0,
+                extra_wrapper_convert => {
+                    #timeout => 300,
+                },
+                use_tx            => $self->{use_tx},
+                custom_tx_manager => $self->{custom_tx_manager},
+            ),
+            pl => Perinci::Access::Perl->new(
                 load => 0,
                 extra_wrapper_convert => {
                     #timeout => 300,
@@ -386,8 +395,7 @@ sub call {
     # add uri prefix
     $rreq->{uri} = "$self->{riap_uri_prefix}$rreq->{uri}";
 
-    # normalize into URI object
-    $rreq->{uri} = $self->{riap_client}->_normalize_uri($rreq->{uri});
+    # split, for convenience of other middlewares that might use it
 
     $log->tracef("Riap request: %s", $rreq);
 
@@ -411,7 +419,7 @@ Plack::Middleware::PeriAHS::ParseRequest - Parse Riap request from HTTP request
 
 =head1 VERSION
 
-version 0.30
+version 0.31
 
 =head1 SYNOPSIS
 
@@ -635,11 +643,13 @@ requests. You can supply a custom object here.
 
 =item * use_tx => BOOL (default 0)
 
-Will be passed to L<Perinci::Access::InProcess> constructor.
+Will be passed to L<Perinci::Access::Perl> and L<Perinci::Access::Schemeless>
+constructor.
 
 =item * custom_tx_manager => STR|CODE
 
-Will be passed to L<Perinci::Access::InProcess> constructor.
+Will be passed to L<Perinci::Access::Perl> and L<Perinci::Access::Schemeless>
+constructor.
 
 =item * php_clients_ua_re => REGEX (default: qr(Phinci|/php|php/)i)
 

@@ -4,7 +4,7 @@ use 5.010001;
 use strict;
 use warnings;
 
-our $VERSION = '0.30'; # VERSION
+our $VERSION = '0.31'; # VERSION
 
 1;
 # ABSTRACT: PSGI application to implement Riap::HTTP
@@ -19,7 +19,7 @@ Perinci::Access::HTTP::Server - PSGI application to implement Riap::HTTP
 
 =head1 VERSION
 
-version 0.30
+version 0.31
 
 =head1 SYNOPSIS
 
@@ -161,7 +161,7 @@ authentication and before response creation.
 =head2 I want to support new actions.
 
 Normally you'll need to extend the appropriate Riap clients (e.g.
-L<Perinci::Access::InProcess> for this. Again, note that you don't have to
+L<Perinci::Access::Schemeless> for this. Again, note that you don't have to
 resort to subclassing just to accomplish this. You can inject the
 action_ACTION() method from somewhere else.
 

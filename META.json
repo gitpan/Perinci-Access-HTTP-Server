@@ -4,7 +4,7 @@
       "Steven Haryanto <stevenharyanto@gmail.com>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 4.300035, CPAN::Meta::Converter version 2.131560",
+   "generated_by" : "Dist::Zilla version 4.300038, CPAN::Meta::Converter version 2.132510",
    "license" : [
       "perl_5"
    ],
@@ -14,14 +14,9 @@
    },
    "name" : "Perinci-Access-HTTP-Server",
    "prereqs" : {
-      "build" : {
-         "requires" : {
-            "Module::Build" : "0.3601"
-         }
-      },
       "configure" : {
          "requires" : {
-            "Module::Build" : "0.3601"
+            "ExtUtils::MakeMaker" : "6.30"
          }
       },
       "develop" : {
@@ -42,9 +37,10 @@
             "Log::Any::Adapter::Callback" : "0.03",
             "Module::List" : "0",
             "Module::Patch" : "0.12",
-            "Perinci::Access" : "0.10",
+            "Perinci::Access" : "0.36",
             "Perinci::Access::HTTP::Client" : "0.07",
-            "Perinci::Access::InProcess" : "0.19",
+            "Perinci::Access::Perl" : "0.19",
+            "Perinci::Access::Schemeless" : "0.19",
             "Perinci::CmdLine" : "0",
             "Perinci::Examples" : "0",
             "Perinci::Gen::ForModule" : "0",
@@ -55,14 +51,16 @@
             "Riap" : "v1.1.10",
             "SHARYANTO::Array::Util" : "0",
             "Starman" : "0",
-            "URI" : "0",
             "URI::Escape" : "0",
+            "URI::Split" : "0",
             "YAML::Syck" : "0",
             "perl" : "5.010001"
          }
       },
       "test" : {
          "requires" : {
+            "IO::Handle" : "0",
+            "IPC::Open3" : "0",
             "JSON" : "0",
             "Test::More" : "0.96"
          }
@@ -75,6 +73,6 @@
          "url" : "http://github.com/sharyanto/perl-Perinci-Access-HTTP-Server"
       }
    },
-   "version" : "0.30"
+   "version" : "0.31"
 }
 

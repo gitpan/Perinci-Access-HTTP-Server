@@ -17,7 +17,7 @@ use Plack::Builder;
 use Plack::Runner;
 use Perinci::Gen::ForModule qw(gen_meta_for_module);
 
-our $VERSION = '0.30'; # VERSION
+our $VERSION = '0.31'; # VERSION
 
 our %SPEC;
 
@@ -33,7 +33,7 @@ metadata using Perinci::Sub::Gen::ForModule. After that, a PSGI application will
 be run with the Gepok or Starman PSGI server. The PSGI application serves
 requests for function calls (or other kinds of Riap request) over HTTP. Perl
 modules not specified in the command-line arguments will not be accessible,
-since Perinci::Access::InProcess is used with load=>0.
+since Perinci::Access::Perl is used with load=>0.
 
 Modules can be accessed using URL:
 
@@ -285,7 +285,7 @@ peri-htserve - Serve Perl modules over HTTP(S) using the Riap::HTTP protocol
 
 =head1 VERSION
 
-version 0.30
+version 0.31
 
 =head1 SYNOPSIS
 
