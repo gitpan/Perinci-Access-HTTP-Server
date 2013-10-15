@@ -22,6 +22,7 @@ my %WriteMakefileArgs = (
   "LICENSE" => "perl",
   "NAME" => "Perinci::Access::HTTP::Server",
   "PREREQ_PM" => {
+    "Data::Clean::FromJSON" => "0.11",
     "File::HomeDir" => 0,
     "File::Write::Rotate" => 0,
     "Gepok" => 0,
@@ -49,12 +50,13 @@ my %WriteMakefileArgs = (
     "YAML::Syck" => 0
   },
   "TEST_REQUIRES" => {
+    "File::Spec" => 0,
     "IO::Handle" => 0,
     "IPC::Open3" => 0,
     "JSON" => 0,
     "Test::More" => "0.96"
   },
-  "VERSION" => "0.31",
+  "VERSION" => "0.32",
   "test" => {
     "TESTS" => "t/*.t"
   }

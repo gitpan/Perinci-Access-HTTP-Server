@@ -3,6 +3,7 @@ abstract: 'PSGI application to implement Riap::HTTP'
 author:
   - 'Steven Haryanto <stevenharyanto@gmail.com>'
 build_requires:
+  File::Spec: 0
   IO::Handle: 0
   IPC::Open3: 0
   JSON: 0
@@ -10,13 +11,14 @@ build_requires:
 configure_requires:
   ExtUtils::MakeMaker: 6.30
 dynamic_config: 0
-generated_by: 'Dist::Zilla version 4.300038, CPAN::Meta::Converter version 2.132510'
+generated_by: 'Dist::Zilla version 4.300035, CPAN::Meta::Converter version 2.132140'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: 1.4
 name: Perinci-Access-HTTP-Server
 requires:
+  Data::Clean::FromJSON: 0.11
   File::HomeDir: 0
   File::Write::Rotate: 0
   Gepok: 0
@@ -46,4 +48,4 @@ requires:
 resources:
   homepage: http://search.cpan.org/dist/Perinci-Access-HTTP-Server/
   repository: http://github.com/sharyanto/perl-Perinci-Access-HTTP-Server
-version: 0.31
+version: 0.32
