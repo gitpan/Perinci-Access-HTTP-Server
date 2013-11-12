@@ -2,7 +2,7 @@ NAME
     Perinci::Access::HTTP::Server - PSGI application to implement Riap::HTTP
 
 VERSION
-    version 0.32
+    version 0.33
 
 SYNOPSIS
 DESCRIPTION
@@ -20,6 +20,9 @@ DESCRIPTION
     To get started, currently see the source code of peri-htserve to see the
     basic structure of the PSGI application. Also see each middleware's
     documentation.
+
+FUNCTIONS
+    None are exported by default, but they are exportable.
 
 FAQ
   I don't want to have to add metadata to every function!
@@ -162,6 +165,22 @@ SEE ALSO
     Riap::HTTP
 
     Serabi
+
+HOMEPAGE
+    Please visit the project's homepage at
+    <https://metacpan.org/release/Perinci-Access-HTTP-Server>.
+
+SOURCE
+    Source repository is at
+    <https://github.com/sharyanto/perl-Perinci-Access-HTTP-Server>.
+
+BUGS
+    Please report any bugs or feature requests on the bugtracker website
+    <https://rt.cpan.org/Public/Dist/Display.html?Name=Perinci-Access-HTTP-S
+    erver>
+
+    When submitting a bug or request, please include a test-file or a patch
+    to an existing test-file that illustrates the bug or desired feature.
 
 AUTHOR
     Steven Haryanto <stevenharyanto@gmail.com>

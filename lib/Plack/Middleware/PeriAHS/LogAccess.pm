@@ -18,7 +18,7 @@ use POSIX;
 use Scalar::Util qw(blessed);
 use Time::HiRes qw(gettimeofday tv_interval);
 
-our $VERSION = '0.32'; # VERSION
+our $VERSION = '0.33'; # VERSION
 
 sub prepare_app {
     my $self = shift;
@@ -185,13 +185,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 Plack::Middleware::PeriAHS::LogAccess - Log request
 
 =head1 VERSION
 
-version 0.32
+version 0.33
 
 =head1 SYNOPSIS
 
@@ -220,6 +222,11 @@ for the whole HTTP request (from client connect until HTTP response is sent).
 
 This middleware should be put outermost (first) to be able to record request
 starting time more accurately.
+
+=head1 FUNCTIONS
+
+
+None are exported by default, but they are exportable.
 
 =for Pod::Coverage .*
 
@@ -252,6 +259,22 @@ printed as:
  [resp <LENGTH> <ARGS>]
 
 =back
+
+=head1 HOMEPAGE
+
+Please visit the project's homepage at L<https://metacpan.org/release/Perinci-Access-HTTP-Server>.
+
+=head1 SOURCE
+
+Source repository is at L<https://github.com/sharyanto/perl-Perinci-Access-HTTP-Server>.
+
+=head1 BUGS
+
+Please report any bugs or feature requests on the bugtracker website L<https://rt.cpan.org/Public/Dist/Display.html?Name=Perinci-Access-HTTP-Server>
+
+When submitting a bug or request, please include a test-file or a
+patch to an existing test-file that illustrates the bug or desired
+feature.
 
 =head1 AUTHOR
 

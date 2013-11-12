@@ -36,7 +36,7 @@ use Perinci::Sub::GetArgs::Array qw(get_args_from_array);
 use Plack::Util::PeriAHS qw(errpage);
 use URI::Escape;
 
-our $VERSION = '0.32'; # VERSION
+our $VERSION = '0.33'; # VERSION
 
 # retun ($success?, $errmsg, $res)
 sub __parse_json {
@@ -448,13 +448,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 Plack::Middleware::PeriAHS::ParseRequest - Parse Riap request from HTTP request
 
 =head1 VERSION
 
-version 0.32
+version 0.33
 
 =head1 SYNOPSIS
 
@@ -543,6 +545,11 @@ configuration documentation.
 will result in ['a1', 'a2', 'a3'] being fed into
 L<Perinci::Sub::GetArgs::Array>. An unsuccessful parsing will result in HTTP 400
 error.
+
+=head1 FUNCTIONS
+
+
+None are exported by default, but they are exportable.
 
 =for Pod::Coverage .*
 
@@ -706,6 +713,22 @@ metadata.
 =head1 SEE ALSO
 
 L<Perinci::Access::HTTP::Server>
+
+=head1 HOMEPAGE
+
+Please visit the project's homepage at L<https://metacpan.org/release/Perinci-Access-HTTP-Server>.
+
+=head1 SOURCE
+
+Source repository is at L<https://github.com/sharyanto/perl-Perinci-Access-HTTP-Server>.
+
+=head1 BUGS
+
+Please report any bugs or feature requests on the bugtracker website L<https://rt.cpan.org/Public/Dist/Display.html?Name=Perinci-Access-HTTP-Server>
+
+When submitting a bug or request, please include a test-file or a
+patch to an existing test-file that illustrates the bug or desired
+feature.
 
 =head1 AUTHOR
 

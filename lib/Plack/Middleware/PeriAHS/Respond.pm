@@ -15,7 +15,7 @@ use Perinci::Result::Format 0.31;
 use Scalar::Util qw(blessed);
 use Time::HiRes qw(gettimeofday);
 
-our $VERSION = '0.32'; # VERSION
+our $VERSION = '0.33'; # VERSION
 
 # to avoid sending colored YAML/JSON output
 $Perinci::Result::Format::Enable_Decoration = 0;
@@ -182,13 +182,15 @@ __END__
 
 =pod
 
+=encoding UTF-8
+
 =head1 NAME
 
 Plack::Middleware::PeriAHS::Respond - Send Riap request to Riap server and send the response to client
 
 =head1 VERSION
 
-version 0.32
+version 0.33
 
 =head1 SYNOPSIS
 
@@ -239,6 +241,11 @@ Developer note: additional parameter in the future can be in the form of e.g.:
 
  "l" + <number-of-bytes> + ("," + <additional-param> )* + " "
 
+=head1 FUNCTIONS
+
+
+None are exported by default, but they are exportable.
+
 =for Pod::Coverage .*
 
 =head1 CONFIGURATIONS
@@ -268,6 +275,22 @@ user can just start using something like:
      https://metacpan.org/module/Riap
 
 =back
+
+=head1 HOMEPAGE
+
+Please visit the project's homepage at L<https://metacpan.org/release/Perinci-Access-HTTP-Server>.
+
+=head1 SOURCE
+
+Source repository is at L<https://github.com/sharyanto/perl-Perinci-Access-HTTP-Server>.
+
+=head1 BUGS
+
+Please report any bugs or feature requests on the bugtracker website L<https://rt.cpan.org/Public/Dist/Display.html?Name=Perinci-Access-HTTP-Server>
+
+When submitting a bug or request, please include a test-file or a
+patch to an existing test-file that illustrates the bug or desired
+feature.
 
 =head1 AUTHOR
 
