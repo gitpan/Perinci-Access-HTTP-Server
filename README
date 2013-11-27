@@ -2,7 +2,7 @@ NAME
     Perinci::Access::HTTP::Server - PSGI application to implement Riap::HTTP
 
 VERSION
-    version 0.33
+    version 0.34
 
 SYNOPSIS
 DESCRIPTION
@@ -20,9 +20,6 @@ DESCRIPTION
     To get started, currently see the source code of peri-htserve to see the
     basic structure of the PSGI application. Also see each middleware's
     documentation.
-
-FUNCTIONS
-    None are exported by default, but they are exportable.
 
 FAQ
   I don't want to have to add metadata to every function!

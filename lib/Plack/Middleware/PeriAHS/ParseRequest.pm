@@ -36,7 +36,7 @@ use Perinci::Sub::GetArgs::Array qw(get_args_from_array);
 use Plack::Util::PeriAHS qw(errpage);
 use URI::Escape;
 
-our $VERSION = '0.33'; # VERSION
+our $VERSION = '0.34'; # VERSION
 
 # retun ($success?, $errmsg, $res)
 sub __parse_json {
@@ -456,7 +456,7 @@ Plack::Middleware::PeriAHS::ParseRequest - Parse Riap request from HTTP request
 
 =head1 VERSION
 
-version 0.33
+version 0.34
 
 =head1 SYNOPSIS
 
@@ -545,11 +545,6 @@ configuration documentation.
 will result in ['a1', 'a2', 'a3'] being fed into
 L<Perinci::Sub::GetArgs::Array>. An unsuccessful parsing will result in HTTP 400
 error.
-
-=head1 FUNCTIONS
-
-
-None are exported by default, but they are exportable.
 
 =for Pod::Coverage .*
 

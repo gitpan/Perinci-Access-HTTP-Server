@@ -33,8 +33,8 @@ my %WriteMakefileArgs = (
     "Module::Patch" => "0.12",
     "Perinci::Access" => "0.36",
     "Perinci::Access::HTTP::Client" => "0.07",
-    "Perinci::Access::Perl" => "0.19",
-    "Perinci::Access::Schemeless" => "0.19",
+    "Perinci::Access::Perl" => "0.55",
+    "Perinci::Access::Schemeless" => "0.55",
     "Perinci::CmdLine" => 0,
     "Perinci::Examples" => 0,
     "Perinci::Gen::ForModule" => 0,
@@ -56,37 +56,52 @@ my %WriteMakefileArgs = (
     "JSON" => 0,
     "Test::More" => "0.96"
   },
-  "VERSION" => "0.33",
+  "VERSION" => "0.34",
   "test" => {
     "TESTS" => "t/*.t"
   }
 );
 
 
-unless ( eval { ExtUtils::MakeMaker->VERSION(6.63_03) } ) {
-  my $tr = delete $WriteMakefileArgs{TEST_REQUIRES};
-  my $br = $WriteMakefileArgs{BUILD_REQUIRES};
-  for my $mod ( keys %$tr ) {
-    if ( exists $br->{$mod} ) {
-      $br->{$mod} = $tr->{$mod} if $tr->{$mod} > $br->{$mod};
-    }
-    else {
-      $br->{$mod} = $tr->{$mod};
-    }
-  }
-}
+my %FallbackPrereqs = (
+  "Data::Clean::FromJSON" => "0.11",
+  "File::HomeDir" => 0,
+  "File::Spec" => 0,
+  "File::Write::Rotate" => 0,
+  "Gepok" => 0,
+  "IO::Handle" => 0,
+  "IPC::Open3" => 0,
+  "JSON" => 0,
+  "Log::Any" => 0,
+  "Log::Any::Adapter" => 0,
+  "Log::Any::Adapter::Callback" => "0.03",
+  "Module::List" => 0,
+  "Module::Patch" => "0.12",
+  "Perinci::Access" => "0.36",
+  "Perinci::Access::HTTP::Client" => "0.07",
+  "Perinci::Access::Perl" => "0.55",
+  "Perinci::Access::Schemeless" => "0.55",
+  "Perinci::CmdLine" => 0,
+  "Perinci::Examples" => 0,
+  "Perinci::Gen::ForModule" => 0,
+  "Perinci::Result::Format" => "0.31",
+  "Perinci::Sub::GetArgs::Array" => 0,
+  "Plack::Middleware::Auth::Basic" => 0,
+  "Plack::Runner" => 0,
+  "Riap" => "v1.1.10",
+  "SHARYANTO::Array::Util" => 0,
+  "Starman" => 0,
+  "Test::More" => "0.96",
+  "URI::Escape" => 0,
+  "URI::Split" => 0,
+  "YAML::Syck" => 0
+);
 
-unless ( eval { ExtUtils::MakeMaker->VERSION(6.56) } ) {
-  my $br = delete $WriteMakefileArgs{BUILD_REQUIRES};
-  my $pp = $WriteMakefileArgs{PREREQ_PM};
-  for my $mod ( keys %$br ) {
-    if ( exists $pp->{$mod} ) {
-      $pp->{$mod} = $br->{$mod} if $br->{$mod} > $pp->{$mod};
-    }
-    else {
-      $pp->{$mod} = $br->{$mod};
-    }
-  }
+
+unless ( eval { ExtUtils::MakeMaker->VERSION(6.63_03) } ) {
+  delete $WriteMakefileArgs{TEST_REQUIRES};
+  delete $WriteMakefileArgs{BUILD_REQUIRES};
+  $WriteMakefileArgs{PREREQ_PM} = \%FallbackPrereqs;
 }
 
 delete $WriteMakefileArgs{CONFIGURE_REQUIRES}

@@ -19,7 +19,7 @@ use Plack::Util::PeriAHS qw(errpage);
 use SHARYANTO::Array::Util qw(match_array_or_regex);
 use URI::Split qw(uri_split);
 
-our $VERSION = '0.33'; # VERSION
+our $VERSION = '0.34'; # VERSION
 
 sub prepare_app {
     my $self = shift;
@@ -90,7 +90,7 @@ Plack::Middleware::PeriAHS::CheckAccess - Deny access based on some criteria
 
 =head1 VERSION
 
-version 0.33
+version 0.34
 
 =head1 DESCRIPTION
 
@@ -98,11 +98,6 @@ This middleware denies access according to some criterias in
 C<$env->{"riap.request"}>. It should be put after ParseRequest.
 
 For a more sophisticated access control, try the PeriAHS::ACL middleware.
-
-=head1 FUNCTIONS
-
-
-None are exported by default, but they are exportable.
 
 =for Pod::Coverage .*
 

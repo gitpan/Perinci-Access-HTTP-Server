@@ -4,7 +4,7 @@ use 5.010001;
 use strict;
 use warnings;
 
-our $VERSION = '0.33'; # VERSION
+our $VERSION = '0.34'; # VERSION
 
 1;
 # ABSTRACT: PSGI application to implement Riap::HTTP
@@ -21,7 +21,7 @@ Perinci::Access::HTTP::Server - PSGI application to implement Riap::HTTP
 
 =head1 VERSION
 
-version 0.33
+version 0.34
 
 =head1 SYNOPSIS
 
@@ -40,11 +40,6 @@ of command.
 To get started, currently see the source code of B<peri-htserve> to see the
 basic structure of the PSGI application. Also see each middleware's
 documentation.
-
-=head1 FUNCTIONS
-
-
-None are exported by default, but they are exportable.
 
 =head1 FAQ
 

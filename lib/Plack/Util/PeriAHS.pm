@@ -8,7 +8,7 @@ use Log::Any '$log';
 our @ISA = qw(Exporter);
 our @EXPORT_OK = qw(errpage);
 
-our $VERSION = '0.33'; # VERSION
+our $VERSION = '0.34'; # VERSION
 
 use JSON;
 
@@ -60,9 +60,7 @@ Plack::Util::PeriAHS - Utility routines
 
 =head1 VERSION
 
-version 0.33
-
-=head1 DESCRIPTION
+version 0.34
 
 =head1 FUNCTIONS
 
@@ -73,9 +71,6 @@ page PSGI response, either in HTML/JSON/plaintext (according to C<<
 $env->{"riap.request"}{fmt} >>). Will default to JSON if C<fmt> is unsupported.
 
 $env is PSGI environment.
-
-
-None are exported by default, but they are exportable.
 
 =head1 HOMEPAGE
 

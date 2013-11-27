@@ -15,7 +15,7 @@ use Perinci::Result::Format 0.31;
 use Scalar::Util qw(blessed);
 use Time::HiRes qw(gettimeofday);
 
-our $VERSION = '0.33'; # VERSION
+our $VERSION = '0.34'; # VERSION
 
 # to avoid sending colored YAML/JSON output
 $Perinci::Result::Format::Enable_Decoration = 0;
@@ -42,13 +42,9 @@ sub format_result {
     my $rreq = $env->{"riap.request"};
 
     # adjust entity uri's against riap_uri_prefix configuration
-    if ($rreq->{action} eq 'list' && $rres->[0] == 200) {
-        for my $e (@{ $rres->[2] }) {
-            for ($rreq->{detail} ? $e->{uri} : $e) {
-                if (s/^pl://) {
-                    s/\A\Q$midpr->{riap_uri_prefix}//;
-                }
-            }
+    if ($rreq->{action} eq 'info' && $rres->[0] == 200) {
+        for ($rres->[2]{uri}) {
+            s/\A\Q$midpr->{riap_uri_prefix}//;
         }
     }
 
@@ -190,7 +186,7 @@ Plack::Middleware::PeriAHS::Respond - Send Riap request to Riap server and send 
 
 =head1 VERSION
 
-version 0.33
+version 0.34
 
 =head1 SYNOPSIS
 
@@ -240,11 +236,6 @@ the whole Riap response is received):
 Developer note: additional parameter in the future can be in the form of e.g.:
 
  "l" + <number-of-bytes> + ("," + <additional-param> )* + " "
-
-=head1 FUNCTIONS
-
-
-None are exported by default, but they are exportable.
 
 =for Pod::Coverage .*
 

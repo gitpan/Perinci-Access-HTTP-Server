@@ -18,7 +18,7 @@ use POSIX;
 use Scalar::Util qw(blessed);
 use Time::HiRes qw(gettimeofday tv_interval);
 
-our $VERSION = '0.33'; # VERSION
+our $VERSION = '0.34'; # VERSION
 
 sub prepare_app {
     my $self = shift;
@@ -193,7 +193,7 @@ Plack::Middleware::PeriAHS::LogAccess - Log request
 
 =head1 VERSION
 
-version 0.33
+version 0.34
 
 =head1 SYNOPSIS
 
@@ -222,11 +222,6 @@ for the whole HTTP request (from client connect until HTTP response is sent).
 
 This middleware should be put outermost (first) to be able to record request
 starting time more accurately.
-
-=head1 FUNCTIONS
-
-
-None are exported by default, but they are exportable.
 
 =for Pod::Coverage .*
 
