@@ -29,14 +29,13 @@ use Plack::Util::Accessor qw(
                                 deconfuse_php_clients
                         );
 
-use Perinci::Access;
-use Perinci::Access::Perl;
 use Perinci::Access::Schemeless;
 use Perinci::Sub::GetArgs::Array qw(get_args_from_array);
 use Plack::Util::PeriAHS qw(errpage);
+use Scalar::Util qw(blessed);
 use URI::Escape;
 
-our $VERSION = '0.34'; # VERSION
+our $VERSION = '0.35'; # VERSION
 
 # retun ($success?, $errmsg, $res)
 sub __parse_json {
@@ -119,35 +118,24 @@ sub prepare_app {
     $self->{use_tx}            //= 0;
     $self->{custom_tx_manager} //= undef;
 
-    $self->{riap_client}       //= Perinci::Access->new(
-        handlers => {
-            '' => Perinci::Access::Schemeless->new(
-                load => 0,
-                extra_wrapper_convert => {
-                    #timeout => 300,
-                },
-                use_tx            => $self->{use_tx},
-                custom_tx_manager => $self->{custom_tx_manager},
-            ),
-            pl => Perinci::Access::Perl->new(
-                load => 0,
-                extra_wrapper_convert => {
-                    #timeout => 300,
-                },
-                use_tx            => $self->{use_tx},
-                custom_tx_manager => $self->{custom_tx_manager},
-            ),
-        }
+    $self->{riap_client}       //= Perinci::Access::Schemeless->new(
+        load => 0,
+        extra_wrapper_convert => {
+            #timeout => 300,
+        },
+        use_tx            => $self->{use_tx},
+        custom_tx_manager => $self->{custom_tx_manager},
     );
 
     $self->{php_clients_ua_re} //= qr(Phinci|/php|php/)i;
     $self->{deconfuse_php_clients} //= 1;
+
+    $log->tracef("Prepared PeriAHS::ParseRequest middleware: %s", $self);
 }
 
 sub call {
-    $log->tracef("=> PeriAHS::ParseRequest middleware");
-
     my ($self, $env) = @_;
+    $log->tracef("=> PeriAHS::ParseRequest middleware");
 
     my $rreq = $env->{"riap.request"} //= {};
 
@@ -456,7 +444,7 @@ Plack::Middleware::PeriAHS::ParseRequest - Parse Riap request from HTTP request
 
 =head1 VERSION
 
-version 0.34
+version 0.35
 
 =head1 SYNOPSIS
 
@@ -495,7 +483,7 @@ From form variable C<callback>.
 
 =item * $env->{'periahs.riap_client'} => OBJ
 
-Store the Riap client (instance of L<Perinci::Access>).
+Store the Riap client (by default instance of L<Perinci::Access::Schemeless>).
 
 =back
 
@@ -674,19 +662,18 @@ Example:
 
 =item * riap_client => OBJ
 
-By default, a L<Perinci::Access> object will be instantiated (and later put into
-C<$env->{'periahs.riap_client'}> for the next middlewares) to perform Riap
-requests. You can supply a custom object here.
+By default, a L<Perinci::Access::Schemeless> object will be instantiated (and
+later put into C<$env->{'periahs.riap_client'}> for the next middlewares) to
+perform Riap requests. You can supply a custom object here, for example the more
+general L<Perinci::Access> object to allow requesting from remote URLs.
 
 =item * use_tx => BOOL (default 0)
 
-Will be passed to L<Perinci::Access::Perl> and L<Perinci::Access::Schemeless>
-constructor.
+Will be passed to L<Perinci::Access::Schemeless> constructor.
 
 =item * custom_tx_manager => STR|CODE
 
-Will be passed to L<Perinci::Access::Perl> and L<Perinci::Access::Schemeless>
-constructor.
+Will be passed to L<Perinci::Access::Schemeless> constructor.
 
 =item * php_clients_ua_re => REGEX (default: qr(Phinci|/php|php/)i)
 

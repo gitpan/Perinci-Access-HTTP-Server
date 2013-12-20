@@ -4,7 +4,7 @@
       "Steven Haryanto <stevenharyanto@gmail.com>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 5.006, CPAN::Meta::Converter version 2.132830",
+   "generated_by" : "Dist::Zilla version 5.006, CPAN::Meta::Converter version 2.132510",
    "license" : [
       "perl_5"
    ],
@@ -38,10 +38,8 @@
             "Log::Any::Adapter::Callback" : "0.03",
             "Module::List" : "0",
             "Module::Patch" : "0.12",
-            "Perinci::Access" : "0.36",
             "Perinci::Access::HTTP::Client" : "0.07",
-            "Perinci::Access::Perl" : "0.55",
-            "Perinci::Access::Schemeless" : "0.55",
+            "Perinci::Access::Schemeless" : "0.56",
             "Perinci::CmdLine" : "0",
             "Perinci::Examples" : "0",
             "Perinci::Gen::ForModule" : "0",
@@ -80,10 +78,10 @@
          "web" : "https://github.com/sharyanto/perl-Perinci-Access-HTTP-Server"
       }
    },
-   "version" : "0.34",
+   "version" : "0.35",
    "x_Dist_Zilla" : {
       "perl" : {
-         "version" : "5.018001"
+         "version" : "5.010001"
       },
       "plugins" : [
          {
@@ -309,12 +307,12 @@
          {
             "class" : "Dist::Zilla::Plugin::ReadmeFromPod",
             "name" : "@Author::SHARYANTO/ReadmeFromPod",
-            "version" : "0.21"
+            "version" : "0.18"
          },
          {
             "class" : "Dist::Zilla::Plugin::Rinci::Validate",
             "name" : "@Author::SHARYANTO/Rinci::Validate",
-            "version" : "0.09"
+            "version" : "0.11"
          },
          {
             "class" : "Dist::Zilla::Plugin::Test::Compile",

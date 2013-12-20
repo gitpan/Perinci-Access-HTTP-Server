@@ -10,6 +10,8 @@ bin/peri-htserve
 dist.ini
 examples/auth.psgi
 examples/authz.psgi
+examples/perl-any.psgi
+examples/perl-some.psgi
 lib/Perinci/Access/Base/Patch/PeriAHS.pm
 lib/Perinci/Access/HTTP/Server.pm
 lib/Plack/Middleware/PeriAHS/CheckAccess.pm

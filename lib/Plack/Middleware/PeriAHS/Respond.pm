@@ -15,7 +15,7 @@ use Perinci::Result::Format 0.31;
 use Scalar::Util qw(blessed);
 use Time::HiRes qw(gettimeofday);
 
-our $VERSION = '0.34'; # VERSION
+our $VERSION = '0.35'; # VERSION
 
 # to avoid sending colored YAML/JSON output
 $Perinci::Result::Format::Enable_Decoration = 0;
@@ -186,7 +186,7 @@ Plack::Middleware::PeriAHS::Respond - Send Riap request to Riap server and send 
 
 =head1 VERSION
 
-version 0.34
+version 0.35
 
 =head1 SYNOPSIS
 
@@ -200,7 +200,7 @@ version 0.34
 =head1 DESCRIPTION
 
 This middleware sends Riap request (C<$env->{"riap.request"}>) to Riap client
-(L<Perinci::Access> object, stored in C<$env->{"periahs.riap_client"}> by
+(C<Perinci::Access::*> object, stored in C<$env->{"periahs.riap_client"}> by
 PeriAHS::ParseRequest middleware, thus this middleware requires the
 PeriAHS::ParseRequest middleware), format the result, and send it to client.
 This middleware is the one that sends response to client and should be put as
