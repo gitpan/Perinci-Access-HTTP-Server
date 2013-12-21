@@ -12,13 +12,12 @@ use File::HomeDir;
 use File::Write::Rotate;
 use Module::List qw(list_modules);
 use Module::Load;
-use Perinci::Access::Schemeless;
 use Perinci::CmdLine ();
 use Perinci::Gen::ForModule qw(gen_meta_for_module);
 use Plack::Builder;
 use Plack::Runner;
 
-our $VERSION = '0.35'; # VERSION
+our $VERSION = '0.36'; # VERSION
 
 our %SPEC;
 
@@ -34,7 +33,7 @@ metadata using Perinci::Sub::Gen::ForModule. After that, a PSGI application will
 be run with the Gepok or Starman PSGI server. The PSGI application serves
 requests for function calls (or other kinds of Riap request) over HTTP. Perl
 modules not specified in the command-line arguments will not be accessible,
-since Perinci::Access::Perl is used with load=>0.
+since Perinci::Access::Schemeless is used with load=>0.
 
 Modules can be accessed using URL:
 
@@ -144,6 +143,13 @@ _
                 of => 'str*',
             }],
             summary => 'Add directory to library search path, a la Perl\'s -I',
+            description => <<'_',
+
+Note that some modules are already loaded before this option takes effect. To
+make sure some directories are processed, you can use `PERL5OPT` or explicitly
+use `perl` and use its `-I` option.
+
+_
             cmdline_aliases => {I=>{}},
         },
 
@@ -166,6 +172,10 @@ _
         password => {
             schema => ['str*'],
             summary => 'Protect with HTTP authentication, specify password',
+        },
+        enable_logging => {
+            schema  => ['bool', default=>1],
+            summary => 'Can be used to test server with no support for logging',
         },
     },
     #'_perinci.sub.wrapper.validate_args' => 0,
@@ -217,6 +227,7 @@ sub serve {
     # let's only allow access to perl modules (and not other schemes like http).
     # let's not dynamically load modules except the ones explicitly specified
     # and loaded above. let's only allow seeing the specified modules.
+    require Perinci::Access::Schemeless;
     my $pa = Perinci::Access::Schemeless->new(
         load => 0,
         allow_paths => [map {s!::!/!g; "/$_"} @modules],
@@ -253,7 +264,10 @@ sub serve {
             riap_client     => $pa,
         );
 
-        enable "PeriAHS::Respond";
+        enable (
+            "PeriAHS::Respond",
+            enable_logging => $args{enable_logging},
+        );
     };
 
     my @argv;
@@ -299,7 +313,7 @@ peri-htserve - Serve Perl modules over HTTP(S) using the Riap::HTTP protocol
 
 =head1 VERSION
 
-version 0.35
+version 0.36
 
 =head1 SYNOPSIS
 

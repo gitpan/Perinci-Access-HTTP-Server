@@ -47,7 +47,7 @@
             "Perinci::Sub::GetArgs::Array" : "0",
             "Plack::Middleware::Auth::Basic" : "0",
             "Plack::Runner" : "0",
-            "Riap" : "v1.1.10",
+            "Riap" : "v1.1.22",
             "SHARYANTO::Array::Util" : "0",
             "Starman" : "0",
             "URI::Escape" : "0",
@@ -78,7 +78,7 @@
          "web" : "https://github.com/sharyanto/perl-Perinci-Access-HTTP-Server"
       }
    },
-   "version" : "0.35",
+   "version" : "0.36",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.010001"

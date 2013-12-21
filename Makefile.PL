@@ -40,7 +40,7 @@ my %WriteMakefileArgs = (
     "Perinci::Sub::GetArgs::Array" => 0,
     "Plack::Middleware::Auth::Basic" => 0,
     "Plack::Runner" => 0,
-    "Riap" => "v1.1.10",
+    "Riap" => "v1.1.22",
     "SHARYANTO::Array::Util" => 0,
     "Starman" => 0,
     "URI::Escape" => 0,
@@ -54,7 +54,7 @@ my %WriteMakefileArgs = (
     "JSON" => 0,
     "Test::More" => "0.96"
   },
-  "VERSION" => "0.35",
+  "VERSION" => "0.36",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -84,7 +84,7 @@ my %FallbackPrereqs = (
   "Perinci::Sub::GetArgs::Array" => 0,
   "Plack::Middleware::Auth::Basic" => 0,
   "Plack::Runner" => 0,
-  "Riap" => "v1.1.10",
+  "Riap" => "v1.1.22",
   "SHARYANTO::Array::Util" => 0,
   "Starman" => 0,
   "Test::More" => "0.96",
