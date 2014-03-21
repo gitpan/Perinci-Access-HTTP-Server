@@ -19,7 +19,7 @@ use Plack::Util::PeriAHS qw(errpage);
 use SHARYANTO::Array::Util qw(match_array_or_regex);
 use URI::Split qw(uri_split);
 
-our $VERSION = '0.36'; # VERSION
+our $VERSION = '0.37'; # VERSION
 
 sub prepare_app {
     my $self = shift;
@@ -90,7 +90,7 @@ Plack::Middleware::PeriAHS::CheckAccess - Deny access based on some criteria
 
 =head1 VERSION
 
-version 0.36
+version 0.37
 
 =head1 DESCRIPTION
 
@@ -161,7 +161,7 @@ Steven Haryanto <stevenharyanto@gmail.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2013 by Steven Haryanto.
+This software is copyright (c) 2014 by Steven Haryanto.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

@@ -8,7 +8,7 @@ use Module::Patch 0.12 qw();
 use base qw(Module::Patch);
 use Perinci::Result::Format;
 
-our $VERSION = '0.36'; # VERSION
+our $VERSION = '0.37'; # VERSION
 
 sub patch_data {
     return {
@@ -56,7 +56,7 @@ Perinci::Access::Base::Patch::PeriAHS - Patch for Perinci::Access::Base
 
 =head1 VERSION
 
-version 0.36
+version 0.37
 
 =head1 DESCRIPTION
 
@@ -89,7 +89,7 @@ Steven Haryanto <stevenharyanto@gmail.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2013 by Steven Haryanto.
+This software is copyright (c) 2014 by Steven Haryanto.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

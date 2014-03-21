@@ -16,6 +16,7 @@ use Plack::Util::Accessor qw(
                                 server_path
 
                                 match_uri
+                                match_uri_errmsg
                                 parse_form
                                 parse_reform
                                 parse_path_info
@@ -35,7 +36,7 @@ use Plack::Util::PeriAHS qw(errpage);
 use Scalar::Util qw(blessed);
 use URI::Escape;
 
-our $VERSION = '0.36'; # VERSION
+our $VERSION = '0.37'; # VERSION
 
 # retun ($success?, $errmsg, $res)
 sub __parse_json {
@@ -235,12 +236,14 @@ sub call {
         my %m;
         if (ref($mu) eq 'ARRAY') {
             $uri =~ $mu->[0] or return errpage(
-                $env, [404, "Request does not match match_uri[0] $mu->[0]"]);
+                $env, [404, $self->{match_uri_errmsg} //
+                           "Request does not match match_uri[0] $mu->[0]"]);
             %m = %+;
             $mu->[1]->($env, \%m);
         } else {
             $uri =~ $mu or return errpage(
-                $env, [404, "Request does not match match_uri $mu"]);
+                $env, [404, $self->{match_uri_errmsg} //
+                           "Request does not match match_uri $mu"]);
             %m = %+;
             for (keys %m) {
                 $rreq->{$_} //= $m{$_};
@@ -444,7 +447,7 @@ Plack::Middleware::PeriAHS::ParseRequest - Parse Riap request from HTTP request
 
 =head1 VERSION
 
-version 0.36
+version 0.37
 
 =head1 SYNOPSIS
 
@@ -612,6 +615,10 @@ $env->{'riap.request'} as needed. An example:
 Given URI C</api/Foo.Bar/baz>, C<uri> Riap request key will be set to
 C</Foo/Bar/baz>.
 
+=item * match_uri_errmsg => STR
+
+Show custom error message when URI does not match C<match_uri>.
+
 =item * accept_yaml => BOOL (default 0)
 
 Whether to accept YAML-encoded data in HTTP request body and form for C<args>
@@ -718,7 +725,7 @@ Steven Haryanto <stevenharyanto@gmail.com>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2013 by Steven Haryanto.
+This software is copyright (c) 2014 by Steven Haryanto.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
