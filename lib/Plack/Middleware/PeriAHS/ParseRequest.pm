@@ -36,7 +36,7 @@ use Plack::Util::PeriAHS qw(errpage);
 use Scalar::Util qw(blessed);
 use URI::Escape;
 
-our $VERSION = '0.38'; # VERSION
+our $VERSION = '0.39'; # VERSION
 
 # retun ($success?, $errmsg, $res)
 sub __parse_json {
@@ -231,7 +231,7 @@ sub call {
 
     # get uri from 'match_uri' config
     my $mu  = $self->{match_uri};
-    if ($mu) {
+    if ($mu && !exists($rreq->{uri})) {
         my $uri = $env->{REQUEST_URI};
         my %m;
         if (ref($mu) eq 'ARRAY') {
@@ -304,9 +304,9 @@ sub call {
                 return errpage(
                     $env, [400, "Invalid Riap request key `$rk` (from form)"])
                     unless $rk =~ /\A\w+\z/;
-                $rreq->{$rk} //= $v;
+                $rreq->{$rk} = $v unless exists $rreq->{$rk};
             } else {
-                $rreq->{args}{$k} //= $v;
+                $rreq->{args}{$k} = $v unless exists $rreq->{args}{$k};
             }
         }
     }
@@ -445,7 +445,7 @@ Plack::Middleware::PeriAHS::ParseRequest - Parse Riap request from HTTP request
 
 =head1 VERSION
 
-version 0.38
+version 0.39
 
 =head1 SYNOPSIS
 
