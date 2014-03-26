@@ -16,7 +16,7 @@ use Perinci::Result::Format 0.31;
 use Scalar::Util qw(blessed);
 use Time::HiRes qw(gettimeofday);
 
-our $VERSION = '0.37'; # VERSION
+our $VERSION = '0.38'; # VERSION
 
 # to avoid sending colored YAML/JSON output
 $Perinci::Result::Format::Enable_Decoration = 0;
@@ -192,7 +192,7 @@ Plack::Middleware::PeriAHS::Respond - Send Riap request to Riap server and send 
 
 =head1 VERSION
 
-version 0.37
+version 0.38
 
 =head1 SYNOPSIS
 

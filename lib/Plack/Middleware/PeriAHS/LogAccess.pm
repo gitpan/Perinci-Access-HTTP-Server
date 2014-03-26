@@ -18,7 +18,7 @@ use POSIX;
 use Scalar::Util qw(blessed);
 use Time::HiRes qw(gettimeofday tv_interval);
 
-our $VERSION = '0.37'; # VERSION
+our $VERSION = '0.38'; # VERSION
 
 sub prepare_app {
     my $self = shift;
@@ -193,7 +193,7 @@ Plack::Middleware::PeriAHS::LogAccess - Log request
 
 =head1 VERSION
 
-version 0.37
+version 0.38
 
 =head1 SYNOPSIS
 

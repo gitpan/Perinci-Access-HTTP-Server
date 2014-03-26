@@ -36,7 +36,7 @@ use Plack::Util::PeriAHS qw(errpage);
 use Scalar::Util qw(blessed);
 use URI::Escape;
 
-our $VERSION = '0.37'; # VERSION
+our $VERSION = '0.38'; # VERSION
 
 # retun ($success?, $errmsg, $res)
 sub __parse_json {
@@ -382,6 +382,9 @@ sub call {
             $env, [500, "Required Riap request key '$_' has not been defined"]);
     }
 
+    # add uri prefix
+    $rreq->{uri} = "$self->{riap_uri_prefix}$rreq->{uri}";
+
     # special handling for php clients #2
     {
         last unless $self->{deconfuse_php_clients} &&
@@ -418,11 +421,6 @@ sub call {
         }
     }
 
-    # add uri prefix
-    $rreq->{uri} = "$self->{riap_uri_prefix}$rreq->{uri}";
-
-    # split, for convenience of other middlewares that might use it
-
     $log->tracef("Riap request: %s", $rreq);
 
     # expose configuration for other middlewares
@@ -447,7 +445,7 @@ Plack::Middleware::PeriAHS::ParseRequest - Parse Riap request from HTTP request
 
 =head1 VERSION
 
-version 0.37
+version 0.38
 
 =head1 SYNOPSIS
 
