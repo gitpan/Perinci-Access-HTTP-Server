@@ -17,7 +17,7 @@ use Perinci::Gen::ForModule qw(gen_meta_for_module);
 use Plack::Builder;
 use Plack::Runner;
 
-our $VERSION = '0.39'; # VERSION
+our $VERSION = '0.40'; # VERSION
 
 our %SPEC;
 
@@ -313,7 +313,7 @@ peri-htserve - Serve Perl modules over HTTP(S) using the Riap::HTTP protocol
 
 =head1 VERSION
 
-version 0.39
+version 0.40
 
 =head1 SYNOPSIS
 
