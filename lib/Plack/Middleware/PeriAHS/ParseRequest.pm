@@ -36,7 +36,7 @@ use Plack::Util::PeriAHS qw(errpage);
 use Scalar::Util qw(blessed);
 use URI::Escape;
 
-our $VERSION = '0.40'; # VERSION
+our $VERSION = '0.41'; # VERSION
 
 # retun ($success?, $errmsg, $res)
 sub __parse_json {
@@ -121,7 +121,7 @@ sub prepare_app {
 
     $self->{riap_client}       //= Perinci::Access::Schemeless->new(
         load => 0,
-        extra_wrapper_convert => {
+        set_function_properties => {
             #timeout => 300,
         },
         use_tx            => $self->{use_tx},
@@ -445,7 +445,7 @@ Plack::Middleware::PeriAHS::ParseRequest - Parse Riap request from HTTP request
 
 =head1 VERSION
 
-version 0.40
+This document describes version 0.41 of Plack::Middleware::PeriAHS::ParseRequest (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-04-30.
 
 =head1 SYNOPSIS
 

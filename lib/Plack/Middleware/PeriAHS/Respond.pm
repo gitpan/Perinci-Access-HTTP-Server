@@ -16,7 +16,7 @@ use Perinci::Result::Format 0.31;
 use Scalar::Util qw(blessed);
 use Time::HiRes qw(gettimeofday);
 
-our $VERSION = '0.40'; # VERSION
+our $VERSION = '0.41'; # VERSION
 
 # to avoid sending colored YAML/JSON output
 $Perinci::Result::Format::Enable_Decoration = 0;
@@ -192,7 +192,7 @@ Plack::Middleware::PeriAHS::Respond - Send Riap request to Riap server and send 
 
 =head1 VERSION
 
-version 0.40
+This document describes version 0.41 of Plack::Middleware::PeriAHS::Respond (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-04-30.
 
 =head1 SYNOPSIS
 

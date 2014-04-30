@@ -4,7 +4,7 @@ use 5.010001;
 use strict;
 use warnings;
 
-our $VERSION = '0.40'; # VERSION
+our $VERSION = '0.41'; # VERSION
 
 1;
 # ABSTRACT: PSGI application to implement Riap::HTTP
@@ -21,7 +21,7 @@ Perinci::Access::HTTP::Server - PSGI application to implement Riap::HTTP
 
 =head1 VERSION
 
-version 0.40
+This document describes version 0.41 of Perinci::Access::HTTP::Server (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-04-30.
 
 =head1 SYNOPSIS
 

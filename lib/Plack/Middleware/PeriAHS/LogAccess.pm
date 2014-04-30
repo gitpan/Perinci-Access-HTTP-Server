@@ -18,7 +18,7 @@ use POSIX;
 use Scalar::Util qw(blessed);
 use Time::HiRes qw(gettimeofday tv_interval);
 
-our $VERSION = '0.40'; # VERSION
+our $VERSION = '0.41'; # VERSION
 
 sub prepare_app {
     my $self = shift;
@@ -202,7 +202,7 @@ Plack::Middleware::PeriAHS::LogAccess - Log request
 
 =head1 VERSION
 
-version 0.40
+This document describes version 0.41 of Plack::Middleware::PeriAHS::LogAccess (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-04-30.
 
 =head1 SYNOPSIS
 
