@@ -17,7 +17,7 @@ use Perinci::Result::Format 0.31;
 use Scalar::Util qw(blessed);
 use Time::HiRes qw(gettimeofday);
 
-our $VERSION = '0.42'; # VERSION
+our $VERSION = '0.43'; # VERSION
 
 # to avoid sending colored YAML/JSON output
 $Perinci::Result::Format::Enable_Decoration = 0;
@@ -136,9 +136,7 @@ sub call {
         my $loglvl  = $self->{enable_logging} ? ($rreq->{'loglevel'} // 0) : 0;
         my $rres; #  short for riap response
         $env->{'periahs.start_action_time'} = [gettimeofday];
-        if ($self->{pass_psgi_env}) {
-            $rreq->{args}{-env} = $env;
-        }
+        local $rreq->{args}{-env} = $env if $self->{pass_psgi_env};
         if ($loglvl > 0) {
             $writer = $respond->([
                 200, ["Content-Type" => "text/plain",
@@ -197,7 +195,7 @@ Plack::Middleware::PeriAHS::Respond - Send Riap request to Riap server and send 
 
 =head1 VERSION
 
-This document describes version 0.42 of Plack::Middleware::PeriAHS::Respond (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-06-11.
+This document describes version 0.43 of Plack::Middleware::PeriAHS::Respond (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-06-11.
 
 =head1 SYNOPSIS
 

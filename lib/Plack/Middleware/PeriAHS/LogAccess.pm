@@ -18,7 +18,7 @@ use POSIX;
 use Scalar::Util qw(blessed);
 use Time::HiRes qw(gettimeofday tv_interval);
 
-our $VERSION = '0.42'; # VERSION
+our $VERSION = '0.43'; # VERSION
 
 sub prepare_app {
     my $self = shift;
@@ -70,6 +70,7 @@ sub log_access {
     }
 
     state $json = JSON->new->allow_nonref;
+    local *UNIVERSAL::TO_JSON = sub { "$_[0]" };
 
     my $rreq = $env->{'riap.request'};
 
@@ -202,7 +203,7 @@ Plack::Middleware::PeriAHS::LogAccess - Log request
 
 =head1 VERSION
 
-This document describes version 0.42 of Plack::Middleware::PeriAHS::LogAccess (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-06-11.
+This document describes version 0.43 of Plack::Middleware::PeriAHS::LogAccess (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-06-11.
 
 =head1 SYNOPSIS
 
