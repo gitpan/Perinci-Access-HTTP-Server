@@ -36,7 +36,7 @@ use Plack::Util::PeriAHS qw(errpage);
 use Scalar::Util qw(blessed);
 use URI::Escape;
 
-our $VERSION = '0.41'; # VERSION
+our $VERSION = '0.42'; # VERSION
 
 # retun ($success?, $errmsg, $res)
 sub __parse_json {
@@ -80,7 +80,8 @@ sub get_server_url {
     }
     my $port = $self->{server_port};
     unless (defined $port) {
-        $port = $2 ? $2 : ($env->{HTTPS} ? 443 : 80);
+        $port = $env->{HTTP_HOST} =~ /(.+):(.+)/ ? $2 :
+            ($env->{HTTPS} ? 443 : 80);
     }
     join("",
          ($env->{HTTPS} ? "https" : "http"), "://",
@@ -445,7 +446,7 @@ Plack::Middleware::PeriAHS::ParseRequest - Parse Riap request from HTTP request
 
 =head1 VERSION
 
-This document describes version 0.41 of Plack::Middleware::PeriAHS::ParseRequest (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-04-30.
+This document describes version 0.42 of Plack::Middleware::PeriAHS::ParseRequest (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-06-11.
 
 =head1 SYNOPSIS
 

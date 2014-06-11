@@ -9,6 +9,7 @@ use parent qw(Plack::Middleware);
 use Plack::Util::Accessor qw(
                                 add_text_tips
                                 enable_logging
+                                pass_psgi_env
                         );
 
 use Log::Any::Adapter;
@@ -16,7 +17,7 @@ use Perinci::Result::Format 0.31;
 use Scalar::Util qw(blessed);
 use Time::HiRes qw(gettimeofday);
 
-our $VERSION = '0.41'; # VERSION
+our $VERSION = '0.42'; # VERSION
 
 # to avoid sending colored YAML/JSON output
 $Perinci::Result::Format::Enable_Decoration = 0;
@@ -29,6 +30,7 @@ sub prepare_app {
 
     $self->{add_text_tips}  //= 1;
     $self->{enable_logging} //= 1;
+    $self->{pass_psgi_env}  //= 0;
 }
 
 sub format_result {
@@ -134,6 +136,9 @@ sub call {
         my $loglvl  = $self->{enable_logging} ? ($rreq->{'loglevel'} // 0) : 0;
         my $rres; #  short for riap response
         $env->{'periahs.start_action_time'} = [gettimeofday];
+        if ($self->{pass_psgi_env}) {
+            $rreq->{args}{-env} = $env;
+        }
         if ($loglvl > 0) {
             $writer = $respond->([
                 200, ["Content-Type" => "text/plain",
@@ -192,7 +197,7 @@ Plack::Middleware::PeriAHS::Respond - Send Riap request to Riap server and send 
 
 =head1 VERSION
 
-This document describes version 0.41 of Plack::Middleware::PeriAHS::Respond (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-04-30.
+This document describes version 0.42 of Plack::Middleware::PeriAHS::Respond (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-06-11.
 
 =head1 SYNOPSIS
 
@@ -277,6 +282,11 @@ server choosing to support this feature must send C<X-Riap-Logging: 1> HTTP
 response header and chunked response (as described in L<Riap::HTTP>) with each
 chunk prepended (as described in L<Riap::HTTP> and the above description). You
 can choose not to support this, by setting this configuration to 0.
+
+=item * pass_psgi_env => BOOL (default: 0)
+
+Set this to true if you want your functions to have access to the PSGI
+environment. Functions will get it through the special argument C<-env>.
 
 =back
 
