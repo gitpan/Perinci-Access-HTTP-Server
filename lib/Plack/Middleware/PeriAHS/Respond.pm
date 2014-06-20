@@ -12,22 +12,22 @@ use Plack::Util::Accessor qw(
                                 pass_psgi_env
                         );
 
+use Data::Clean::JSON;
 use Log::Any::Adapter;
 use Perinci::Result::Format 0.31;
 use Scalar::Util qw(blessed);
 use Time::HiRes qw(gettimeofday);
 
-our $VERSION = '0.46'; # VERSION
+our $VERSION = '0.47'; # VERSION
+our $DATE = '2014-06-20'; # DATE
+
+# we're doing the cleansing of Riap response ourselves instead of delegating to
+# Perinci::Result::Format, because we might need the cleansed elsewhere (e.g.
+# when doing access logging).
+my $cleanser = Data::Clean::JSON->get_cleanser;
 
 # to avoid sending colored YAML/JSON output
 $Perinci::Result::Format::Enable_Decoration = 0;
-
-# to allow in-place cleansing of data when formatter can't handle data
-$Perinci::Result::Format::Enable_Cleansing = 1;
-
-# XXX for high-performance app, since cleansing is a bit heavy (e.g. only
-# 11k/sec on my laptop, while encoding to json is >100k/sec) perhaps cache the
-# cleansed result.
 
 sub prepare_app {
     my $self = shift;
@@ -176,6 +176,7 @@ sub call {
                 $rres = $pa->request($rreq->{action} => $rreq->{uri}, $rreq);
             }
         }
+        $cleanser->clean_in_place($rres);
         $env->{'periahs.finish_action_time'} = [gettimeofday];
 
         $env->{'riap.response'} = $rres;
@@ -208,7 +209,7 @@ Plack::Middleware::PeriAHS::Respond - Send Riap request to Riap server and send 
 
 =head1 VERSION
 
-This document describes version 0.46 of Plack::Middleware::PeriAHS::Respond (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-06-20.
+This document describes version 0.47 of Plack::Middleware::PeriAHS::Respond (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-06-20.
 
 =head1 SYNOPSIS
 
