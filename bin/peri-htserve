@@ -17,7 +17,7 @@ use Perinci::Gen::ForModule qw(gen_meta_for_module);
 use Plack::Builder;
 use Plack::Runner;
 
-our $VERSION = '0.45'; # VERSION
+our $VERSION = '0.46'; # VERSION
 
 our %SPEC;
 
@@ -131,6 +131,10 @@ _
             schema => ['str' => {}],
             summary => 'Will be passed to Gepok',
         },
+        gepok_start_servers => {
+            schema => ['int' => {}],
+            summary => 'Will be passed to Gepok',
+        },
         daemonize => {
             schema => ['bool' => {
                 default => 0,
@@ -176,6 +180,19 @@ _
         enable_logging => {
             schema  => ['bool', default=>1],
             summary => 'Can be used to test server with no support for logging',
+        },
+
+        metadb => {
+            summary => 'Path to SQLite Rinci metadata database',
+            schema  => 'str*',
+            description => <<'_',
+
+This is an experimental option for testing serving metadata from database. If
+set, will use `Perinci::Access::Schemeless::DBI` (with option
+`fallback_on_completion`) instead of `Perinci::Access::Schemeless` for the Riap
+client.
+
+_
         },
     },
     #'_perinci.sub.wrapper.validate_args' => 0,
@@ -227,11 +244,28 @@ sub serve {
     # let's only allow access to perl modules (and not other schemes like http).
     # let's not dynamically load modules except the ones explicitly specified
     # and loaded above. let's only allow seeing the specified modules.
-    require Perinci::Access::Schemeless;
-    my $pa = Perinci::Access::Schemeless->new(
-        load => 0,
-        allow_paths => [map {s!::!/!g; "/$_"} @modules],
-    );
+    my $pa;
+    {
+        my $class;
+        my %extra_opts;
+        if ($args{metadb}) {
+            $class = "Perinci::Access::Schemeless::DBI";
+            $extra_opts{fallback_on_completion} = 1;
+
+            require DBI;
+            my $dbh = DBI->connect(
+                "dbi:SQLite:dbname=$args{metadb}", "", "", {RaiseError=>1});
+            $extra_opts{dbh} = $dbh;
+        } else {
+            $class = "Perinci::Access::Schemeless";
+        }
+        load $class;
+        $pa = $class->new(
+            load => 0,
+            allow_paths => [map {s!::!/!g; "/$_"} @modules],
+            %extra_opts,
+        );
+    }
 
     my $app = builder {
         enable(
@@ -283,8 +317,8 @@ sub serve {
             $args{gepok_http_ports} = "*:5000";
         }
         for (qw/http_port https_ports unix_sockets
-                ssl_key_file ssl_cert_file/) {
-            push @argv, "--$_", $args{"gepok_$_"} if $args{"gepok_$_"};
+                ssl_key_file ssl_cert_file start_servers/) {
+            push @argv, "--$_", $args{"gepok_$_"} if defined $args{"gepok_$_"};
         }
     }
     push @argv, "-D" if $args{daemonize};
@@ -313,7 +347,7 @@ peri-htserve - Serve Perl modules over HTTP(S) using the Riap::HTTP protocol
 
 =head1 VERSION
 
-This document describes version 0.45 of peri-htserve (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-06-11.
+This document describes version 0.46 of peri-htserve (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-06-20.
 
 =head1 SYNOPSIS
 

@@ -17,13 +17,17 @@ use Perinci::Result::Format 0.31;
 use Scalar::Util qw(blessed);
 use Time::HiRes qw(gettimeofday);
 
-our $VERSION = '0.45'; # VERSION
+our $VERSION = '0.46'; # VERSION
 
 # to avoid sending colored YAML/JSON output
 $Perinci::Result::Format::Enable_Decoration = 0;
 
 # to allow in-place cleansing of data when formatter can't handle data
 $Perinci::Result::Format::Enable_Cleansing = 1;
+
+# XXX for high-performance app, since cleansing is a bit heavy (e.g. only
+# 11k/sec on my laptop, while encoding to json is >100k/sec) perhaps cache the
+# cleansed result.
 
 sub prepare_app {
     my $self = shift;
@@ -58,6 +62,7 @@ sub format_result {
     for ($fmt, "json") { # fallback to json if unknown format
         $formatter = $Perinci::Result::Format::Formats{$_};
         if ($formatter) {
+            $log->tracef("formatting result using %s", $formatter);
             $fmt = $_;
             last;
         }
@@ -164,6 +169,9 @@ sub call {
             }
         } else {
             {
+                # if we die here, Plack won't show us (traps this somewhere up),
+                # so we need to display using this hack
+                #$SIG{__WARN__} = $SIG{__DIE__} = sub { use Data::Dump; open F, ">>/tmp/periahs.log"; say F @_; close F };
                 local $rreq->{args}{-env} = $env if $self->{pass_psgi_env};
                 $rres = $pa->request($rreq->{action} => $rreq->{uri}, $rreq);
             }
@@ -200,7 +208,7 @@ Plack::Middleware::PeriAHS::Respond - Send Riap request to Riap server and send 
 
 =head1 VERSION
 
-This document describes version 0.45 of Plack::Middleware::PeriAHS::Respond (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-06-11.
+This document describes version 0.46 of Plack::Middleware::PeriAHS::Respond (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-06-20.
 
 =head1 SYNOPSIS
 
