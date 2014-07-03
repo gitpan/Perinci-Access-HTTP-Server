@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!perl
 
 use 5.010;
 use strict;
@@ -11,13 +11,13 @@ use Perinci::Access::Base::Patch::PeriAHS;
 use File::HomeDir;
 use File::Write::Rotate;
 use Module::List qw(list_modules);
-use Module::Load;
+use Module::Load qw(load autoload);
 use Perinci::CmdLine ();
 use Perinci::Gen::ForModule qw(gen_meta_for_module);
 use Plack::Builder;
 use Plack::Runner;
 
-our $VERSION = '0.47'; # VERSION
+our $VERSION = '0.48'; # VERSION
 
 our %SPEC;
 
@@ -59,6 +59,10 @@ _
 
 Either specify exact module name or one using wildcard (e.g. 'Foo::Bar::*', in
 which Module::List will be used to load all modules under 'Foo::Bar::').
+
+You can also add `,noload` to skip loading the module. Usually this is because
+the package name is included/created by another module, and you want to allow
+access to this package.
 
 _
         },
@@ -156,6 +160,16 @@ use `perl` and use its `-I` option.
 _
             cmdline_aliases => {I=>{}},
         },
+        use => {
+            schema => ['array' => of => 'str*'],
+            summary => 'Use a Perl module, a la Perl\'s -M',
+            cmdline_aliases => {M=>{}},
+        },
+        require => {
+            schema => ['array' => of => 'str*'],
+            summary => 'Require a Perl module, a la Perl\'s -m',
+            cmdline_aliases => {m=>{}},
+        },
 
         parse_form => {
             schema => ['bool'],
@@ -212,11 +226,27 @@ sub serve {
         lib->import($dir);
     }
 
+    for my $use (@{ $args{use} // [] }) {
+        if (my ($mod, $imp) = $use =~ /(.+?)=(.+)/) {
+            load $mod;
+            $mod->import(split /,/, $imp);
+        } else {
+            autoload $use;
+        }
+    }
+
+    for my $req (@{ $args{require} // [] }) {
+        load $req;
+    }
+
     my @modules;
+    my @modules_noload;
     for my $m (@{$args{modules}}) {
         if ($m =~ /(.+::)\*$/) {
             my $res = list_modules($1, {list_modules=>1});
             push @modules, keys %$res;
+        } elsif ($m =~ s/,noload$//) {
+            push @modules_noload, $m;
         } else {
             push @modules, $m;
         }
@@ -262,7 +292,7 @@ sub serve {
         load $class;
         $pa = $class->new(
             load => 0,
-            allow_paths => [map {s!::!/!g; "/$_"} @modules],
+            allow_paths => [map {s!::!/!g; "/$_"} @modules, @modules_noload],
             %extra_opts,
         );
     }
@@ -347,7 +377,7 @@ peri-htserve - Serve Perl modules over HTTP(S) using the Riap::HTTP protocol
 
 =head1 VERSION
 
-This document describes version 0.47 of peri-htserve (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-06-20.
+This document describes version 0.48 of peri-htserve (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-07-03.
 
 =head1 SYNOPSIS
 

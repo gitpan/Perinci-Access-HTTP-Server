@@ -18,8 +18,8 @@ use Perinci::Result::Format 0.31;
 use Scalar::Util qw(blessed);
 use Time::HiRes qw(gettimeofday);
 
-our $VERSION = '0.47'; # VERSION
-our $DATE = '2014-06-20'; # DATE
+our $VERSION = '0.48'; # VERSION
+our $DATE = '2014-07-03'; # DATE
 
 # we're doing the cleansing of Riap response ourselves instead of delegating to
 # Perinci::Result::Format, because we might need the cleansed elsewhere (e.g.
@@ -169,9 +169,6 @@ sub call {
             }
         } else {
             {
-                # if we die here, Plack won't show us (traps this somewhere up),
-                # so we need to display using this hack
-                #$SIG{__WARN__} = $SIG{__DIE__} = sub { use Data::Dump; open F, ">>/tmp/periahs.log"; say F @_; close F };
                 local $rreq->{args}{-env} = $env if $self->{pass_psgi_env};
                 $rres = $pa->request($rreq->{action} => $rreq->{uri}, $rreq);
             }
@@ -209,7 +206,7 @@ Plack::Middleware::PeriAHS::Respond - Send Riap request to Riap server and send 
 
 =head1 VERSION
 
-This document describes version 0.47 of Plack::Middleware::PeriAHS::Respond (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-06-20.
+This document describes version 0.48 of Plack::Middleware::PeriAHS::Respond (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-07-03.
 
 =head1 SYNOPSIS
 
