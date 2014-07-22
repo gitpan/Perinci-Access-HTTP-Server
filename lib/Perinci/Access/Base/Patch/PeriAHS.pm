@@ -8,7 +8,7 @@ use Module::Patch 0.12 qw();
 use base qw(Module::Patch);
 use Perinci::Result::Format;
 
-our $VERSION = '0.49'; # VERSION
+our $VERSION = '0.50'; # VERSION
 
 sub patch_data {
     return {
@@ -56,7 +56,7 @@ Perinci::Access::Base::Patch::PeriAHS - Patch for Perinci::Access::Base
 
 =head1 VERSION
 
-This document describes version 0.49 of Perinci::Access::Base::Patch::PeriAHS (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-07-04.
+This document describes version 0.50 of Perinci::Access::Base::Patch::PeriAHS (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-07-22.
 
 =head1 DESCRIPTION
 

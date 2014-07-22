@@ -12,12 +12,12 @@ use File::HomeDir;
 use File::Write::Rotate;
 use Module::List qw(list_modules);
 use Module::Load qw(load autoload);
-use Perinci::CmdLine ();
+use Perinci::CmdLine::Any;
 use Perinci::Gen::ForModule qw(gen_meta_for_module);
 use Plack::Builder;
 use Plack::Runner;
 
-our $VERSION = '0.49'; # VERSION
+our $VERSION = '0.50'; # VERSION
 
 our %SPEC;
 
@@ -417,7 +417,7 @@ sub serve {
     [200, "OK"];
 }
 
-Perinci::CmdLine->new(url => '/main/serve')->run;
+Perinci::CmdLine::Any->new(url => '/main/serve')->run;
 
 #ABSTRACT: Serve Perl modules over HTTP(S) using the Riap::HTTP protocol
 #PODNAME: peri-htserve
@@ -434,7 +434,7 @@ peri-htserve - Serve Perl modules over HTTP(S) using the Riap::HTTP protocol
 
 =head1 VERSION
 
-This document describes version 0.49 of peri-htserve (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-07-04.
+This document describes version 0.50 of peri-htserve (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-07-22.
 
 =head1 SYNOPSIS
 
