@@ -36,7 +36,7 @@ use Plack::Util::PeriAHS qw(errpage);
 use Scalar::Util qw(blessed);
 use URI::Escape;
 
-our $VERSION = '0.50'; # VERSION
+our $VERSION = '0.51'; # VERSION
 
 # retun ($success?, $errmsg, $res)
 sub __parse_json {
@@ -446,7 +446,7 @@ Plack::Middleware::PeriAHS::ParseRequest - Parse Riap request from HTTP request
 
 =head1 VERSION
 
-This document describes version 0.50 of Plack::Middleware::PeriAHS::ParseRequest (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-07-22.
+This document describes version 0.51 of Plack::Middleware::PeriAHS::ParseRequest (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-09-06.
 
 =head1 SYNOPSIS
 
@@ -720,11 +720,11 @@ feature.
 
 =head1 AUTHOR
 
-Steven Haryanto <stevenharyanto@gmail.com>
+perlancar <perlancar@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2014 by Steven Haryanto.
+This software is copyright (c) 2014 by perlancar@cpan.org.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

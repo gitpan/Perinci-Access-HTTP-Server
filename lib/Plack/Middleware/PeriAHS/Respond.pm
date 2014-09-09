@@ -18,8 +18,8 @@ use Perinci::Result::Format 0.31;
 use Scalar::Util qw(blessed);
 use Time::HiRes qw(gettimeofday);
 
-our $VERSION = '0.50'; # VERSION
-our $DATE = '2014-07-22'; # DATE
+our $VERSION = '0.51'; # VERSION
+our $DATE = '2014-09-06'; # DATE
 
 # we're doing the cleansing of Riap response ourselves instead of delegating to
 # Perinci::Result::Format, because we might need the cleansed elsewhere (e.g.
@@ -206,7 +206,7 @@ Plack::Middleware::PeriAHS::Respond - Send Riap request to Riap server and send 
 
 =head1 VERSION
 
-This document describes version 0.50 of Plack::Middleware::PeriAHS::Respond (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-07-22.
+This document describes version 0.51 of Plack::Middleware::PeriAHS::Respond (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-09-06.
 
 =head1 SYNOPSIS
 
@@ -317,11 +317,11 @@ feature.
 
 =head1 AUTHOR
 
-Steven Haryanto <stevenharyanto@gmail.com>
+perlancar <perlancar@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2014 by Steven Haryanto.
+This software is copyright (c) 2014 by perlancar@cpan.org.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

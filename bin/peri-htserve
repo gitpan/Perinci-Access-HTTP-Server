@@ -17,7 +17,7 @@ use Perinci::Gen::ForModule qw(gen_meta_for_module);
 use Plack::Builder;
 use Plack::Runner;
 
-our $VERSION = '0.50'; # VERSION
+our $VERSION = '0.51'; # VERSION
 
 our %SPEC;
 
@@ -247,7 +247,7 @@ client.
 _
         },
     },
-    #'_perinci.sub.wrapper.validate_args' => 0,
+    'x.perinci.sub.wrapper.disable_validate_args' => 1,
 };
 sub serve {
     my %args = @_; # VXALIDATE_ARGS
@@ -434,7 +434,7 @@ peri-htserve - Serve Perl modules over HTTP(S) using the Riap::HTTP protocol
 
 =head1 VERSION
 
-This document describes version 0.50 of peri-htserve (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-07-22.
+This document describes version 0.51 of peri-htserve (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-09-06.
 
 =head1 SYNOPSIS
 
@@ -511,11 +511,11 @@ feature.
 
 =head1 AUTHOR
 
-Steven Haryanto <stevenharyanto@gmail.com>
+perlancar <perlancar@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2014 by Steven Haryanto.
+This software is copyright (c) 2014 by perlancar@cpan.org.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
