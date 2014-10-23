@@ -18,8 +18,8 @@ use Perinci::Result::Format 0.31;
 use Scalar::Util qw(blessed);
 use Time::HiRes qw(gettimeofday);
 
-our $VERSION = '0.51'; # VERSION
-our $DATE = '2014-09-06'; # DATE
+our $VERSION = '0.52'; # VERSION
+our $DATE = '2014-10-23'; # DATE
 
 # we're doing the cleansing of Riap response ourselves instead of delegating to
 # Perinci::Result::Format, because we might need the cleansed elsewhere (e.g.
@@ -173,6 +173,7 @@ sub call {
                 $rres = $pa->request($rreq->{action} => $rreq->{uri}, $rreq);
             }
         }
+        insert_riap_stuffs_to_res($rres, $rreq->{v});
         $cleanser->clean_in_place($rres);
         $env->{'periahs.finish_action_time'} = [gettimeofday];
 
@@ -206,7 +207,7 @@ Plack::Middleware::PeriAHS::Respond - Send Riap request to Riap server and send 
 
 =head1 VERSION
 
-This document describes version 0.51 of Plack::Middleware::PeriAHS::Respond (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-09-06.
+This document describes version 0.52 of Plack::Middleware::PeriAHS::Respond (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-10-23.
 
 =head1 SYNOPSIS
 
@@ -305,7 +306,7 @@ Please visit the project's homepage at L<https://metacpan.org/release/Perinci-Ac
 
 =head1 SOURCE
 
-Source repository is at L<https://github.com/sharyanto/perl-Perinci-Access-HTTP-Server>.
+Source repository is at L<https://github.com/perlancar/perl-Perinci-Access-HTTP-Server>.
 
 =head1 BUGS
 

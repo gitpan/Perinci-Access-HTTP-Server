@@ -8,7 +8,7 @@ use Module::Patch 0.12 qw();
 use base qw(Module::Patch);
 use Perinci::Result::Format;
 
-our $VERSION = '0.51'; # VERSION
+our $VERSION = '0.52'; # VERSION
 
 sub patch_data {
     return {
@@ -56,7 +56,7 @@ Perinci::Access::Base::Patch::PeriAHS - Patch for Perinci::Access::Base
 
 =head1 VERSION
 
-This document describes version 0.51 of Perinci::Access::Base::Patch::PeriAHS (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-09-06.
+This document describes version 0.52 of Perinci::Access::Base::Patch::PeriAHS (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-10-23.
 
 =head1 DESCRIPTION
 
@@ -73,7 +73,7 @@ Please visit the project's homepage at L<https://metacpan.org/release/Perinci-Ac
 
 =head1 SOURCE
 
-Source repository is at L<https://github.com/sharyanto/perl-Perinci-Access-HTTP-Server>.
+Source repository is at L<https://github.com/perlancar/perl-Perinci-Access-HTTP-Server>.
 
 =head1 BUGS
 

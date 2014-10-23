@@ -1,10 +1,14 @@
 package Plack::Middleware::PeriAHS::ParseRequest;
 
+our $DATE = '2014-10-23'; # DATE
+our $VERSION = '0.52'; # VERSION
+
 use 5.010;
 use strict;
 use warnings;
 use Log::Any '$log';
 
+use Perinci::AccessUtil qw(insert_riap_stuffs_to_res decode_args_in_riap_req);
 use Perinci::Access::Base::Patch::PeriAHS;
 
 use parent qw(Plack::Middleware);
@@ -35,8 +39,6 @@ use Perinci::Sub::GetArgs::Array qw(get_args_from_array);
 use Plack::Util::PeriAHS qw(errpage);
 use Scalar::Util qw(blessed);
 use URI::Escape;
-
-our $VERSION = '0.51'; # VERSION
 
 # retun ($success?, $errmsg, $res)
 sub __parse_json {
@@ -422,6 +424,9 @@ sub call {
         }
     }
 
+    # Riap 1.2: decode base64-encoded args
+    decode_args_in_riap_req($rreq);
+
     $log->tracef("Riap request: %s", $rreq);
 
     # expose configuration for other middlewares
@@ -446,7 +451,7 @@ Plack::Middleware::PeriAHS::ParseRequest - Parse Riap request from HTTP request
 
 =head1 VERSION
 
-This document describes version 0.51 of Plack::Middleware::PeriAHS::ParseRequest (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-09-06.
+This document describes version 0.52 of Plack::Middleware::PeriAHS::ParseRequest (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-10-23.
 
 =head1 SYNOPSIS
 
@@ -708,7 +713,7 @@ Please visit the project's homepage at L<https://metacpan.org/release/Perinci-Ac
 
 =head1 SOURCE
 
-Source repository is at L<https://github.com/sharyanto/perl-Perinci-Access-HTTP-Server>.
+Source repository is at L<https://github.com/perlancar/perl-Perinci-Access-HTTP-Server>.
 
 =head1 BUGS
 

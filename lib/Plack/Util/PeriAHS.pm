@@ -8,7 +8,7 @@ use Log::Any '$log';
 our @ISA = qw(Exporter);
 our @EXPORT_OK = qw(errpage);
 
-our $VERSION = '0.51'; # VERSION
+our $VERSION = '0.52'; # VERSION
 
 use JSON;
 
@@ -60,7 +60,7 @@ Plack::Util::PeriAHS - Utility routines
 
 =head1 VERSION
 
-This document describes version 0.51 of Plack::Util::PeriAHS (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-09-06.
+This document describes version 0.52 of Plack::Util::PeriAHS (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-10-23.
 
 =head1 FUNCTIONS
 
@@ -78,7 +78,7 @@ Please visit the project's homepage at L<https://metacpan.org/release/Perinci-Ac
 
 =head1 SOURCE
 
-Source repository is at L<https://github.com/sharyanto/perl-Perinci-Access-HTTP-Server>.
+Source repository is at L<https://github.com/perlancar/perl-Perinci-Access-HTTP-Server>.
 
 =head1 BUGS
 
