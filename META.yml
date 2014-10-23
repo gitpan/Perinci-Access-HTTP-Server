@@ -51,7 +51,7 @@ resources:
   bugtracker: https://rt.cpan.org/Public/Dist/Display.html?Name=Perinci-Access-HTTP-Server
   homepage: https://metacpan.org/release/Perinci-Access-HTTP-Server
   repository: git://github.com/perlancar/perl-Perinci-Access-HTTP-Server.git
-version: '0.52'
+version: '0.53'
 x_Dist_Zilla:
   perl:
     version: '5.018002'
