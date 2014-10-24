@@ -2,9 +2,9 @@ NAME
     Perinci::Access::HTTP::Server - PSGI application to implement Riap::HTTP
 
 VERSION
-    This document describes version 0.53 of Perinci::Access::HTTP::Server
+    This document describes version 0.54 of Perinci::Access::HTTP::Server
     (from Perl distribution Perinci-Access-HTTP-Server), released on
-    2014-10-23.
+    2014-10-24.
 
 SYNOPSIS
 DESCRIPTION

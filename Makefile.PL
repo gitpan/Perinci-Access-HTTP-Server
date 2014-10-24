@@ -35,7 +35,7 @@ my %WriteMakefileArgs = (
     "Module::Patch" => "0.12",
     "Perinci::Access::HTTP::Client" => "0.14",
     "Perinci::Access::Schemeless" => "0.71",
-    "Perinci::AccessUtil" => "0.04",
+    "Perinci::AccessUtil" => "0.05",
     "Perinci::CmdLine::Any" => 0,
     "Perinci::Examples" => 0,
     "Perinci::Gen::ForModule" => 0,
@@ -58,7 +58,7 @@ my %WriteMakefileArgs = (
     "JSON" => 0,
     "Test::More" => "0.96"
   },
-  "VERSION" => "0.53",
+  "VERSION" => "0.54",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -83,7 +83,7 @@ my %FallbackPrereqs = (
   "Module::Patch" => "0.12",
   "Perinci::Access::HTTP::Client" => "0.14",
   "Perinci::Access::Schemeless" => "0.71",
-  "Perinci::AccessUtil" => "0.04",
+  "Perinci::AccessUtil" => "0.05",
   "Perinci::CmdLine::Any" => 0,
   "Perinci::Examples" => 0,
   "Perinci::Gen::ForModule" => 0,

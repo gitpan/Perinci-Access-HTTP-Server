@@ -1,7 +1,7 @@
 package Plack::Middleware::PeriAHS::ParseRequest;
 
-our $DATE = '2014-10-23'; # DATE
-our $VERSION = '0.53'; # VERSION
+our $DATE = '2014-10-24'; # DATE
+our $VERSION = '0.54'; # VERSION
 
 use 5.010;
 use strict;
@@ -451,7 +451,7 @@ Plack::Middleware::PeriAHS::ParseRequest - Parse Riap request from HTTP request
 
 =head1 VERSION
 
-This document describes version 0.53 of Plack::Middleware::PeriAHS::ParseRequest (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-10-23.
+This document describes version 0.54 of Plack::Middleware::PeriAHS::ParseRequest (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-10-24.
 
 =head1 SYNOPSIS
 

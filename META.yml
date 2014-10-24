@@ -31,7 +31,7 @@ requires:
   Module::Patch: '0.12'
   Perinci::Access::HTTP::Client: '0.14'
   Perinci::Access::Schemeless: '0.71'
-  Perinci::AccessUtil: '0.04'
+  Perinci::AccessUtil: '0.05'
   Perinci::CmdLine::Any: '0'
   Perinci::Examples: '0'
   Perinci::Gen::ForModule: '0'
@@ -51,7 +51,7 @@ resources:
   bugtracker: https://rt.cpan.org/Public/Dist/Display.html?Name=Perinci-Access-HTTP-Server
   homepage: https://metacpan.org/release/Perinci-Access-HTTP-Server
   repository: git://github.com/perlancar/perl-Perinci-Access-HTTP-Server.git
-version: '0.53'
+version: '0.54'
 x_Dist_Zilla:
   perl:
     version: '5.018002'
