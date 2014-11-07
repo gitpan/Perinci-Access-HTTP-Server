@@ -19,7 +19,7 @@ use Plack::Util::PeriAHS qw(errpage);
 use SHARYANTO::Array::Util qw(match_array_or_regex);
 use URI::Split qw(uri_split);
 
-our $VERSION = '0.54'; # VERSION
+our $VERSION = '0.55'; # VERSION
 
 sub prepare_app {
     my $self = shift;
@@ -90,7 +90,7 @@ Plack::Middleware::PeriAHS::CheckAccess - Deny access based on some criteria
 
 =head1 VERSION
 
-This document describes version 0.54 of Plack::Middleware::PeriAHS::CheckAccess (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-10-24.
+This document describes version 0.55 of Plack::Middleware::PeriAHS::CheckAccess (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-11-07.
 
 =head1 DESCRIPTION
 

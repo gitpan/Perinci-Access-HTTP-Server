@@ -1,7 +1,7 @@
 package Plack::Middleware::PeriAHS::Respond;
 
-our $DATE = '2014-10-24'; # DATE
-our $VERSION = '0.54'; # VERSION
+our $DATE = '2014-11-07'; # DATE
+our $VERSION = '0.55'; # VERSION
 
 use 5.010;
 use strict;
@@ -179,7 +179,7 @@ sub call {
                 $rres = $pa->request($rreq->{action} => $rreq->{uri}, $rreq);
             }
         }
-        $cleanser->clean_in_place($rres);
+        $rres = $cleanser->clone_and_clean($rres);
         $env->{'periahs.finish_action_time'} = [gettimeofday];
 
         $env->{'riap.response'} = $rres;
@@ -212,7 +212,7 @@ Plack::Middleware::PeriAHS::Respond - Send Riap request to Riap server and send 
 
 =head1 VERSION
 
-This document describes version 0.54 of Plack::Middleware::PeriAHS::Respond (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-10-24.
+This document describes version 0.55 of Plack::Middleware::PeriAHS::Respond (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-11-07.
 
 =head1 SYNOPSIS
 

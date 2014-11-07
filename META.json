@@ -82,7 +82,7 @@
          "web" : "https://github.com/perlancar/perl-Perinci-Access-HTTP-Server"
       }
    },
-   "version" : "0.54",
+   "version" : "0.55",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.018002"
@@ -326,7 +326,7 @@
          {
             "class" : "Dist::Zilla::Plugin::Rinci::Validate",
             "name" : "@Author::PERLANCAR/Rinci::Validate",
-            "version" : "0.18"
+            "version" : "0.19"
          },
          {
             "class" : "Dist::Zilla::Plugin::SetScriptShebang",

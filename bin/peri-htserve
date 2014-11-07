@@ -17,7 +17,7 @@ use Perinci::Gen::ForModule qw(gen_meta_for_module);
 use Plack::Builder;
 use Plack::Runner;
 
-our $VERSION = '0.54'; # VERSION
+our $VERSION = '0.55'; # VERSION
 
 our %SPEC;
 
@@ -434,7 +434,7 @@ peri-htserve - Serve Perl modules over HTTP(S) using the Riap::HTTP protocol
 
 =head1 VERSION
 
-This document describes version 0.54 of peri-htserve (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-10-24.
+This document describes version 0.55 of peri-htserve (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-11-07.
 
 =head1 SYNOPSIS
 
