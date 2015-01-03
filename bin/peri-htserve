@@ -1,5 +1,8 @@
 #!perl
 
+our $DATE = '2015-01-03'; # DATE
+our $VERSION = '0.56'; # VERSION
+
 use 5.010;
 use strict;
 use warnings;
@@ -16,8 +19,6 @@ use Perinci::CmdLine::Any;
 use Perinci::Gen::ForModule qw(gen_meta_for_module);
 use Plack::Builder;
 use Plack::Runner;
-
-our $VERSION = '0.55'; # VERSION
 
 our %SPEC;
 
@@ -419,8 +420,8 @@ sub serve {
 
 Perinci::CmdLine::Any->new(url => '/main/serve')->run;
 
-#ABSTRACT: Serve Perl modules over HTTP(S) using the Riap::HTTP protocol
-#PODNAME: peri-htserve
+# ABSTRACT: Serve Perl modules over HTTP(S) using Riap::HTTP protocol
+# PODNAME: peri-htserve
 
 __END__
 
@@ -430,11 +431,11 @@ __END__
 
 =head1 NAME
 
-peri-htserve - Serve Perl modules over HTTP(S) using the Riap::HTTP protocol
+peri-htserve - Serve Perl modules over HTTP(S) using Riap::HTTP protocol
 
 =head1 VERSION
 
-This document describes version 0.55 of peri-htserve (from Perl distribution Perinci-Access-HTTP-Server), released on 2014-11-07.
+This document describes version 0.56 of peri-htserve (from Perl distribution Perinci-Access-HTTP-Server), released on 2015-01-03.
 
 =head1 SYNOPSIS
 
@@ -463,6 +464,251 @@ This document describes version 0.55 of peri-htserve (from Perl distribution Per
 
 For now, please see source code for more details (or --help).
 
+=head1 OPTIONS
+
+C<*> marks required options.
+
+=over
+
+=item B<--config-path>=I<s>
+
+Set path to configuration file.
+
+Can be specified multiple times.
+
+=item B<--config-profile>=I<s>
+
+Set configuration profile to use.
+
+=item B<--daemonize>, B<-D>
+
+If true, will daemonize into background.
+
+=item B<--format-options>=I<s>
+
+Pass options to formatter.
+
+=item B<--format>=I<s>
+
+Choose output format, e.g. json, text.
+
+=item B<--gepok-http-ports>=I<s>
+
+Will be passed to Gepok.
+
+=item B<--gepok-https-ports>=I<s>
+
+Will be passed to Gepok.
+
+=item B<--gepok-ssl-cert-file>=I<s>
+
+Will be passed to Gepok.
+
+=item B<--gepok-ssl-key-file>=I<s>
+
+Will be passed to Gepok.
+
+=item B<--gepok-start-servers>=I<i>
+
+Will be passed to Gepok.
+
+=item B<--gepok-unix-sockets>=I<s>
+
+Will be passed to Gepok.
+
+=item B<--help>, B<-h>, B<-?>
+
+Display this help message.
+
+=item B<--json>
+
+Equivalent to --format=json-pretty.
+
+=item B<--library-json>=I<s>, B<-I>
+
+Add directory to library search path, a la Perl's -I (JSON-encoded).
+
+See C<--library>.
+
+=item B<--library-yaml>=I<s>
+
+Add directory to library search path, a la Perl's -I (YAML-encoded).
+
+See C<--library>.
+
+=item B<--library>=I<s@>
+
+Add directory to library search path, a la Perl's -I.
+
+Note that some modules are already loaded before this option takes effect. To
+make sure some directories are processed, you can use `PERL5OPT` or explicitly
+use `perl` and use its `-I` option.
+
+
+Can be specified multiple times.
+
+=item B<--metadb>=I<s>
+
+Path to SQLite Rinci metadata database.
+
+This is an experimental option for testing serving metadata from database. If
+set, will use `Perinci::Access::Schemeless::DBI` (with option
+`fallback_on_completion`) instead of `Perinci::Access::Schemeless` for the Riap
+client.
+
+
+=item B<--module-or-package-json>=I<s>
+
+List of modules to load (or package to allow and search) (JSON-encoded).
+
+See C<--module-or-package>.
+
+=item B<--module-or-package-yaml>=I<s>
+
+List of modules to load (or package to allow and search) (YAML-encoded).
+
+See C<--module-or-package>.
+
+=item B<--module-or-package>=I<s@>*
+
+List of modules to load (or package to allow and search).
+
+Either specify exact module name like `Foo::Bar`, or a wildcard pattern of
+modules like `Foo::Bar::*` (in which `Module::List` will be used to load all
+modules under `Foo::Bar::`) or a package name using `+Foo::Bar` syntax. If you
+specify package name, module with the same name will not be loaded. Can be used
+to allow and search an already loaded package (e.g. through `-M` or through
+other modules).
+
+
+Can be specified multiple times.
+
+=item B<--no-config>
+
+Do not use any configuration file.
+
+=item B<--no-enable-logging>
+
+=item B<--parse-form>
+
+Passed to Plack::Middleware::PeriAHS::ParseRequest.
+
+=item B<--parse-path-info>
+
+Passed to Plack::Middleware::PeriAHS::ParseRequest.
+
+=item B<--parse-reform>
+
+Passed to Plack::Middleware::PeriAHS::ParseRequest.
+
+=item B<--password>=I<s>
+
+Protect with HTTP authentication, specify password.
+
+=item B<--perl>
+
+Equivalent to --format=perl.
+
+=item B<--require-json>=I<s>, B<-m>
+
+Require a Perl module, a la Perl's -m (JSON-encoded).
+
+See C<--require>.
+
+=item B<--require-yaml>=I<s>
+
+Require a Perl module, a la Perl's -m (YAML-encoded).
+
+See C<--require>.
+
+=item B<--require>=I<s@>
+
+Require a Perl module, a la Perl's -m.
+
+Can be specified multiple times.
+
+=item B<--riap-access-log-histories>=I<i>
+
+Number of old Riap request access log files to keep.
+
+Default is to use File::Write::Rotate's default (10).
+
+
+=item B<--riap-access-log-path>=I<s>
+
+Path for Riap request access log file.
+
+Default is ~/peri-htserve-riap_access.log
+
+
+=item B<--riap-access-log-size>=I<i>
+
+Maximum size for Riap request access log file.
+
+Default is to use File::Write::Rotate's default (10485760, a.k.a. 10MB).
+
+If size exceeds this, file will be rotated.
+
+
+=item B<--server>=I<s>
+
+Choose PSGI server.
+
+Default value:
+
+ "Gepok"
+
+Valid values:
+
+ ["Starman", "Gepok"]
+
+Currently only Starman or Gepok is supported. Default is Gepok.
+
+
+=item B<--starman-host>=I<s>
+
+Will be passed to Starman.
+
+=item B<--starman-port>=I<i>
+
+Will be passed to Starman.
+
+=item B<--use-json>=I<s>, B<-M>
+
+Use a Perl module, a la Perl's -M (JSON-encoded).
+
+See C<--use>.
+
+=item B<--use-yaml>=I<s>
+
+Use a Perl module, a la Perl's -M (YAML-encoded).
+
+See C<--use>.
+
+=item B<--use>=I<s@>
+
+Use a Perl module, a la Perl's -M.
+
+Can be specified multiple times.
+
+=item B<--user>=I<s>
+
+Protect with HTTP authentication, specify username.
+
+=item B<--version>, B<-v>
+
+=item B<--yaml>
+
+Equivalent to --format=yaml.
+
+=back
+
+=head1 FILES
+
+B</etc/peri-htserve.conf>
+
+B<~/peri-htserve.conf>
+
 =head1 QUICK TIPS
 
 =head2 Complex argument
@@ -472,16 +718,6 @@ In raw HTTP, you can send complex argument by encoding it in JSON, e.g.:
  $ curl 'http://localhost:5000/api/Foo/Bar/func?array:j=[1,2,3]'
 
 Notice the ":j" suffix after parameter name.
-
-=head1 TODO
-
-=over 4
-
-=item * Pass more Plackup options.
-
-=item * Pass more PSGI server options.
-
-=back
 
 =head1 SEE ALSO
 
@@ -493,13 +729,41 @@ PSGI servers used: L<Gepok>, L<Starman>
 
 L<Plack::Runner>
 
+=head1 COMPLETION
+
+This script has shell tab completion capability with support for several shells.
+
+=head2 bash
+
+To activate bash completion for this script, put:
+
+ complete -C peri-htserve peri-htserve
+
+in your bash startup (e.g. C<~/.bashrc>). Your next shell session will then recognize tab completion for the command. Or, you can also directly execute the line above in your shell to activate immediately.
+
+It is recommended, however, that you install L<shcompgen> which allows you to activate completion scripts for several kinds of scripts on multiple shells. Some CPAN distributions (those that are built with L<Dist::Zilla::Plugin::GenShellCompletion>) will even automatically enable shell completion for their included scripts (using C<shcompgen>) at installation time, so you can immadiately have tab completion.
+
+=head2 tcsh
+
+To activate tcsh completion for this script, put:
+
+ complete peri-htserve 'p/*/`peri-htserve`/'
+
+in your tcsh startup (e.g. C<~/.tcshrc>). Your next shell session will then recognize tab completion for the command. Or, you can also directly execute the line above in your shell to activate immediately.
+
+It is also recommended to install C<shcompgen> (see above).
+
+=head2 other shells
+
+For fish and zsh, install C<shcompgen> as described above.
+
 =head1 HOMEPAGE
 
 Please visit the project's homepage at L<https://metacpan.org/release/Perinci-Access-HTTP-Server>.
 
 =head1 SOURCE
 
-Source repository is at L<https://github.com/perlancar/perl-Perinci-Access-HTTP-Server>.
+Source repository is at L<https://github.com/sharyanto/perl-Perinci-Access-HTTP-Server>.
 
 =head1 BUGS
 
@@ -515,7 +779,7 @@ perlancar <perlancar@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2014 by perlancar@cpan.org.
+This software is copyright (c) 2015 by perlancar@cpan.org.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
